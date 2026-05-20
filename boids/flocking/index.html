@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Simulation de Nuées</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" defer></script>
+  <script type="module" src="js/main.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <h1 data-i18n="appTitle">Simulation de Nuées</h1>
+      <span class="subtitle" data-i18n="subtitle">Boids — Reynolds 1987</span>
+    </div>
+    <nav class="lang" aria-label="Language" data-i18n-tip="tip.lang">
+      <button data-lang="fr" lang="fr" title="Français">🇫🇷</button>
+      <button data-lang="en" lang="en" title="English">🇬🇧</button>
+      <button data-lang="es" lang="es" title="Español">🇪🇸</button>
+      <button data-lang="zh" lang="zh" title="中文">🇨🇳</button>
+      <button data-lang="ja" lang="ja" title="日本語">🇯🇵</button>
+    </nav>
+  </header>
+
+  <main class="layout">
+    <section class="stage">
+      <canvas id="sim" width="800" height="600"></canvas>
+      <div class="overlay" aria-hidden="true">
+        <span><b id="ovFps">60</b> <i data-i18n="ovFps">IPS</i></span>
+        <span><b id="ovBoids">120</b> <i data-i18n="ovBoids">Boids</i></span>
+        <span><b id="ovGroup">1.0</b> <i data-i18n="ovGroup">Groupe moy.</i></span>
+      </div>
+      <div id="obstacleHint" class="hint" data-i18n="hintObstacle" hidden>
+        Cliquez sur le canevas pour déposer un obstacle
+      </div>
+    </section>
+
+    <aside class="sidebar">
+      <section class="panel">
+        <h2 data-i18n="sectionParams">Paramètres</h2>
+
+        <div class="ctrl">
+          <label for="slCount"><span data-i18n="boidCount">Nombre de boids</span><b id="valCount">120</b></label>
+          <input type="range" id="slCount" min="10" max="300" step="1" value="120" data-i18n-tip="tip.boidCount" />
+        </div>
+        <div class="ctrl">
+          <label for="slCohesion"><span data-i18n="cohesion">Cohésion</span><b id="valCohesion">1.00</b></label>
+          <input type="range" id="slCohesion" min="0" max="2" step="0.05" value="1" data-i18n-tip="tip.cohesion" />
+        </div>
+        <div class="ctrl">
+          <label for="slSeparation"><span data-i18n="separation">Séparation</span><b id="valSeparation">1.50</b></label>
+          <input type="range" id="slSeparation" min="0" max="2" step="0.05" value="1.5" data-i18n-tip="tip.separation" />
+        </div>
+        <div class="ctrl">
+          <label for="slAlignment"><span data-i18n="alignment">Alignement</span><b id="valAlignment">1.00</b></label>
+          <input type="range" id="slAlignment" min="0" max="2" step="0.05" value="1" data-i18n-tip="tip.alignment" />
+        </div>
+        <div class="ctrl">
+          <label for="slVision"><span data-i18n="visionRadius">Rayon de vision</span><b id="valVision">60</b></label>
+          <input type="range" id="slVision" min="20" max="150" step="1" value="60" data-i18n-tip="tip.visionRadius" />
+        </div>
+        <div class="ctrl">
+          <label for="slSpeed"><span data-i18n="maxSpeed">Vitesse max</span><b id="valSpeed">3.0</b></label>
+          <input type="range" id="slSpeed" min="1" max="8" step="0.1" value="3" data-i18n-tip="tip.maxSpeed" />
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2 data-i18n="sectionOptions">Options</h2>
+        <label class="toggle" data-i18n-tip="tip.showVision">
+          <input type="checkbox" id="tgVision" />
+          <span data-i18n="showVision">Afficher les cercles de vision</span>
+        </label>
+        <label class="toggle" data-i18n-tip="tip.predator">
+          <input type="checkbox" id="tgPredator" />
+          <span data-i18n="predator">Prédateur</span>
+        </label>
+        <label class="toggle" data-i18n-tip="tip.obstacleMode">
+          <input type="checkbox" id="tgObstacle" />
+          <span data-i18n="obstacleMode">Placer des obstacles</span>
+        </label>
+      </section>
+
+      <section class="panel">
+        <h2 data-i18n="sectionPresets">Préréglages</h2>
+        <div class="presets">
+          <button id="btnMurmur" data-i18n="presetMurmur" data-i18n-tip="tip.presetMurmur">Murmure</button>
+          <button id="btnChaos" data-i18n="presetChaos" data-i18n-tip="tip.presetChaos">Chaos</button>
+          <button id="btnSchooling" data-i18n="presetSchooling" data-i18n-tip="tip.presetSchooling">Banc de poissons</button>
+          <button id="btnReset" class="ghost" data-i18n="reset" data-i18n-tip="tip.reset">Réinitialiser</button>
+        </div>
+        <button id="btnPause" class="wide" data-i18n="pause" data-i18n-tip="tip.pause">Pause</button>
+      </section>
+
+      <section class="panel" id="chartPanel">
+        <canvas id="metricChart" height="170"></canvas>
+      </section>
+    </aside>
+  </main>
+</body>
+</html>
