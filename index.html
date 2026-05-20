@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SimSciences — Science, Simulated.</title>
+  <meta name="description" content="Interactive browser simulations of real scientific research. One new simulation every week." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <style>
+    :root {
+      --bg: #0a0a0f;
+      --surface: #12121a;
+      --surface-2: #1a1a24;
+      --border: rgba(0, 212, 255, 0.15);
+      --border-strong: rgba(0, 212, 255, 0.4);
+      --cyan: #00d4ff;
+      --green: #00ff88;
+      --text: #f5f5f7;
+      --text-muted: #a8a8b3;
+      --text-dim: #6b6b78;
+      --max-w: 1180px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      font-weight: 400;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    h1, h2, h3 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: var(--text);
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    /* Background canvas */
+    #bg-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    /* Header */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      background: rgba(10, 10, 15, 0.7);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 18px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700;
+      font-size: 18px;
+      letter-spacing: -0.01em;
+    }
+
+    .logo svg { display: block; }
+
+    .logo-mark path { fill: var(--cyan); }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+
+    .nav-links a {
+      font-size: 14px;
+      color: var(--text-muted);
+      transition: color 0.2s ease;
+      font-weight: 500;
+    }
+
+    .nav-links a:hover { color: var(--cyan); }
+
+    .nav-links .yt-icon { font-size: 16px; }
+
+    .kofi-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 14px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      font-size: 13px;
+      color: var(--text-muted);
+      transition: all 0.2s ease;
+      font-weight: 500;
+    }
+
+    .kofi-btn:hover {
+      border-color: var(--border-strong);
+      color: var(--cyan);
+    }
+
+    /* Hero */
+    .hero {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 120px 24px 100px;
+      text-align: center;
+      position: relative;
+    }
+
+    .hero h1 {
+      font-size: clamp(42px, 7vw, 84px);
+      line-height: 1.05;
+      margin-bottom: 24px;
+      background: linear-gradient(135deg, #ffffff 0%, var(--cyan) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero p.subtitle {
+      font-size: clamp(16px, 2vw, 20px);
+      color: var(--text-muted);
+      max-width: 620px;
+      margin: 0 auto 44px;
+      font-weight: 300;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 14px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 26px;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 500;
+      font-family: 'Inter', sans-serif;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border: 1px solid transparent;
+    }
+
+    .btn-primary {
+      background: var(--cyan);
+      color: var(--bg);
+      font-weight: 600;
+    }
+
+    .btn-primary:hover {
+      background: #33dcff;
+      transform: translateY(-1px);
+      box-shadow: 0 8px 24px rgba(0, 212, 255, 0.25);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--text);
+      border-color: var(--border);
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--border-strong);
+      color: var(--cyan);
+    }
+
+    /* Sections */
+    section {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 80px 24px;
+    }
+
+    .section-title {
+      font-size: clamp(28px, 4vw, 40px);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .section-title::before {
+      content: "";
+      display: inline-block;
+      width: 6px;
+      height: 28px;
+      background: var(--cyan);
+      border-radius: 2px;
+    }
+
+    .section-subtitle {
+      color: var(--text-muted);
+      font-size: 15px;
+      margin-bottom: 48px;
+      max-width: 600px;
+    }
+
+    /* Project card */
+    .card {
+      background: var(--surface);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-bottom: 1px solid var(--border-strong);
+      border-radius: 12px;
+      padding: 36px;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 100% 0%, rgba(0, 212, 255, 0.08), transparent 50%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+    }
+
+    .card:hover {
+      transform: scale(1.02);
+      box-shadow: 0 12px 40px rgba(0, 212, 255, 0.12);
+      border-bottom-color: var(--cyan);
+    }
+
+    .card:hover::before { opacity: 1; }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+    }
+
+    .card h3 {
+      font-size: 28px;
+      letter-spacing: -0.01em;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 12px;
+      background: rgba(0, 255, 136, 0.1);
+      color: var(--green);
+      border: 1px solid rgba(0, 255, 136, 0.25);
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-family: 'Space Grotesk', sans-serif;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 18px;
+    }
+
+    .tag {
+      font-size: 12px;
+      padding: 4px 10px;
+      background: rgba(0, 212, 255, 0.08);
+      color: var(--cyan);
+      border-radius: 4px;
+      font-weight: 500;
+    }
+
+    .card-desc {
+      color: var(--text-muted);
+      font-size: 15px;
+      margin-bottom: 18px;
+      max-width: 720px;
+    }
+
+    .read-more-toggle {
+      background: none;
+      border: none;
+      color: var(--cyan);
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      padding: 0;
+      margin-bottom: 12px;
+      font-family: 'Inter', sans-serif;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: opacity 0.2s ease;
+    }
+
+    .read-more-toggle:hover { opacity: 0.75; }
+
+    .read-more-toggle .chevron {
+      transition: transform 0.3s ease;
+      display: inline-block;
+    }
+
+    .read-more-toggle.open .chevron { transform: rotate(180deg); }
+
+    .scientific-text {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.5s ease, margin 0.3s ease;
+      color: var(--text-muted);
+      font-size: 14.5px;
+      line-height: 1.75;
+    }
+
+    .scientific-text.open {
+      max-height: 1500px;
+      margin-bottom: 24px;
+    }
+
+    .scientific-text p { margin-bottom: 14px; }
+
+    .scientific-text ul {
+      list-style: none;
+      padding-left: 0;
+      margin-bottom: 14px;
+    }
+
+    .scientific-text ul li {
+      padding: 4px 0 4px 18px;
+      position: relative;
+    }
+
+    .scientific-text ul li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 14px;
+      width: 8px;
+      height: 1px;
+      background: var(--cyan);
+    }
+
+    .scientific-text .reference {
+      font-size: 13px;
+      color: var(--text-dim);
+      font-style: italic;
+      border-left: 2px solid var(--border);
+      padding-left: 12px;
+      margin-top: 16px;
+    }
+
+    .card-cta {
+      margin-top: 8px;
+    }
+
+    /* About */
+    #about {
+      padding-top: 60px;
+    }
+
+    .about-content {
+      max-width: 720px;
+    }
+
+    .about-content p {
+      color: var(--text-muted);
+      font-size: 16px;
+      margin-bottom: 16px;
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 18px;
+      margin-top: 40px;
+    }
+
+    .feature {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 18px 20px;
+      background: var(--surface);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 8px;
+    }
+
+    .feature-icon {
+      font-size: 22px;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 212, 255, 0.08);
+      border-radius: 8px;
+    }
+
+    .feature-label {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 500;
+      font-size: 15px;
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border);
+      margin-top: 60px;
+      padding: 36px 24px;
+      background: rgba(10, 10, 15, 0.6);
+    }
+
+    .footer-content {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 18px;
+    }
+
+    .footer-info {
+      color: var(--text-dim);
+      font-size: 13px;
+    }
+
+    .footer-info .hosted {
+      display: block;
+      margin-top: 4px;
+      font-size: 12px;
+      color: var(--text-dim);
+      opacity: 0.7;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .footer-links a {
+      color: var(--text-muted);
+      font-size: 16px;
+      transition: color 0.2s ease;
+    }
+
+    .footer-links a:hover { color: var(--cyan); }
+
+    /* Responsive */
+    @media (max-width: 640px) {
+      .nav { padding: 14px 18px; gap: 12px; }
+      .nav-links { gap: 16px; }
+      .nav-links a[href="#about"] { display: none; }
+      .hero { padding: 70px 18px 60px; }
+      section { padding: 60px 18px; }
+      .card { padding: 24px; }
+      .card h3 { font-size: 22px; }
+      .footer-content { flex-direction: column; text-align: center; }
+      .kofi-btn span:not(.kofi-emoji) { display: none; }
+    }
+
+    @media (max-width: 380px) {
+      .nav-links { gap: 12px; }
+      .nav-links a span.label { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="bg-canvas" aria-hidden="true"></canvas>
+
+  <header>
+    <nav class="nav">
+      <a href="#" class="logo" aria-label="SimSciences home">
+        <svg class="logo-mark" width="22" height="22" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 2 L22 20 L2 20 Z" opacity="0.25"/>
+          <path d="M12 6 L19 18 L5 18 Z"/>
+        </svg>
+        <span>SimSciences</span>
+      </a>
+
+      <div class="nav-links">
+        <a href="#simulations"><span class="label">Simulations</span></a>
+        <a href="#about"><span class="label">About</span></a>
+        <a href="https://youtube.com/@simsciences" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
+          <i class="fa-brands fa-youtube yt-icon"></i>
+        </a>
+        <a href="https://ko-fi.com/simsciences" target="_blank" rel="noopener noreferrer" class="kofi-btn" aria-label="Support on Ko-fi">
+          <span class="kofi-emoji">☕</span><span>Support</span>
+        </a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <h1>Science, Simulated.</h1>
+      <p class="subtitle">Interactive visualizations of real scientific research. One new simulation every week.</p>
+      <div class="hero-actions">
+        <a href="https://youtube.com/@simsciences" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+          <i class="fa-brands fa-youtube"></i> Watch on YouTube →
+        </a>
+        <a href="#simulations" class="btn btn-secondary">Explore Simulations ↓</a>
+      </div>
+    </section>
+
+    <section id="simulations">
+      <h2 class="section-title">Simulations</h2>
+      <p class="section-subtitle">Peer-reviewed research, rebuilt as something you can run in your browser.</p>
+
+      <article class="card">
+        <div class="card-header">
+          <h3>Flocking Behavior</h3>
+          <span class="badge">Episode 01</span>
+        </div>
+
+        <div class="tags">
+          <span class="tag">Emergence</span>
+          <span class="tag">Behavioral Ecology</span>
+          <span class="tag">Multi-Agent</span>
+        </div>
+
+        <p class="card-desc">
+          Based on Craig Reynolds' 1986 Boids model. Three simple rules generate complex collective movement — separation, alignment, cohesion.
+        </p>
+
+        <button class="read-more-toggle" type="button" aria-expanded="false" aria-controls="sci-flocking">
+          Read more <span class="chevron">▾</span>
+        </button>
+
+        <div class="scientific-text" id="sci-flocking">
+          <p><strong>Flocking Behavior — Craig Reynolds, 1986</strong></p>
+          <p>
+            In 1986, computer scientist Craig Reynolds published a landmark paper introducing "Boids" (Bird-oid Objects), a simulation model that reproduces the emergent collective movement observed in bird flocks, fish schools, and insect swarms.
+          </p>
+          <p>
+            Reynolds demonstrated that complex, lifelike group behavior arises from just three simple local rules applied to each individual agent:
+          </p>
+          <ul>
+            <li><strong>Separation</strong> — avoid crowding neighbors (short-range repulsion)</li>
+            <li><strong>Alignment</strong> — steer towards the average heading of nearby agents</li>
+            <li><strong>Cohesion</strong> — move toward the average position of nearby agents</li>
+          </ul>
+          <p>No central coordination. No global information. Pure emergence.</p>
+          <p>
+            The predator-prey extension adds a fourth dynamic: escape behavior, where prey agents detect and flee from a predator, while the predator hunts using proximity-based targeting. This models biological predation patterns studied in behavioral ecology.
+          </p>
+          <p class="reference">
+            Reynolds, C. W. (1987). Flocks, herds and schools: A distributed behavioral model. ACM SIGGRAPH Computer Graphics, 21(4), 25–34.
+          </p>
+        </div>
+
+        <div class="card-cta">
+          <a href="./boids/flocking/" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+            Launch Simulation →
+          </a>
+        </div>
+      </article>
+    </section>
+
+    <section id="about">
+      <h2 class="section-title">What is SimSciences?</h2>
+      <div class="about-content">
+        <p>
+          SimSciences transforms peer-reviewed scientific papers into interactive browser simulations. Each episode explores a real study — from collective behavior to physics and biology — making research tangible and explorable.
+        </p>
+        <p>
+          Built with vanilla JavaScript and HTML5 Canvas. No plugins, no frameworks. Just science and code.
+        </p>
+
+        <div class="features">
+          <div class="feature">
+            <div class="feature-icon">🔬</div>
+            <div class="feature-label">Real Research</div>
+          </div>
+          <div class="feature">
+            <div class="feature-icon">🎮</div>
+            <div class="feature-label">Interactive</div>
+          </div>
+          <div class="feature">
+            <div class="feature-icon">📅</div>
+            <div class="feature-label">Weekly</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-content">
+      <div class="footer-info">
+        © 2026 SimSciences — contpund on GitHub
+        <span class="hosted">Hosted on GitHub Pages</span>
+      </div>
+      <div class="footer-links">
+        <a href="https://github.com/contpund/simsciences" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+          <i class="fa-brands fa-github"></i>
+        </a>
+        <a href="https://youtube.com/@simsciences" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
+          <i class="fa-brands fa-youtube"></i>
+        </a>
+        <a href="https://ko-fi.com/simsciences" target="_blank" rel="noopener noreferrer" aria-label="Ko-fi">
+          <i class="fa-solid fa-mug-hot"></i>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Read more toggle
+    document.querySelectorAll('.read-more-toggle').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const targetId = btn.getAttribute('aria-controls');
+        const panel = document.getElementById(targetId);
+        const open = panel.classList.toggle('open');
+        btn.classList.toggle('open', open);
+        btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+        btn.firstChild.textContent = open ? 'Read less ' : 'Read more ';
+      });
+    });
+
+    // Background particle network
+    (function () {
+      const canvas = document.getElementById('bg-canvas');
+      const ctx = canvas.getContext('2d');
+      let width = 0, height = 0, dpr = 1;
+      const particles = [];
+      const PARTICLE_COUNT = 80;
+      const LINK_DIST = 120;
+
+      function resize() {
+        dpr = Math.min(window.devicePixelRatio || 1, 2);
+        width = window.innerWidth;
+        height = window.innerHeight;
+        canvas.width = width * dpr;
+        canvas.height = height * dpr;
+        canvas.style.width = width + 'px';
+        canvas.style.height = height + 'px';
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      }
+
+      function rand(min, max) { return Math.random() * (max - min) + min; }
+
+      function initParticles() {
+        particles.length = 0;
+        for (let i = 0; i < PARTICLE_COUNT; i++) {
+          particles.push({
+            x: rand(0, width),
+            y: rand(0, height),
+            vx: rand(-0.25, 0.25),
+            vy: rand(-0.25, 0.25),
+            r: rand(1, 2.2),
+            cyan: Math.random() < 0.35
+          });
+        }
+      }
+
+      function step() {
+        ctx.clearRect(0, 0, width, height);
+
+        for (let i = 0; i < particles.length; i++) {
+          const p = particles[i];
+          p.x += p.vx;
+          p.y += p.vy;
+
+          if (p.x < 0 || p.x > width) p.vx *= -1;
+          if (p.y < 0 || p.y > height) p.vy *= -1;
+          p.x = Math.max(0, Math.min(width, p.x));
+          p.y = Math.max(0, Math.min(height, p.y));
+
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fillStyle = p.cyan ? 'rgba(0, 212, 255, 0.85)' : 'rgba(255, 255, 255, 0.7)';
+          ctx.fill();
+        }
+
+        for (let i = 0; i < particles.length; i++) {
+          for (let j = i + 1; j < particles.length; j++) {
+            const a = particles[i];
+            const b = particles[j];
+            const dx = a.x - b.x;
+            const dy = a.y - b.y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < LINK_DIST) {
+              const alpha = (1 - dist / LINK_DIST) * 0.25;
+              ctx.beginPath();
+              ctx.moveTo(a.x, a.y);
+              ctx.lineTo(b.x, b.y);
+              ctx.strokeStyle = `rgba(0, 212, 255, ${alpha})`;
+              ctx.lineWidth = 1;
+              ctx.stroke();
+            }
+          }
+        }
+
+        requestAnimationFrame(step);
+      }
+
+      resize();
+      initParticles();
+      step();
+
+      let resizeTimer;
+      window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(() => {
+          resize();
+          initParticles();
+        }, 150);
+      });
+    })();
+  </script>
+</body>
+</html>
