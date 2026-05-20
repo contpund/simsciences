@@ -13,6 +13,21 @@ const DPR_CAP = 1.5;        // cap device pixel ratio for fill-rate headroom
 const TAU = Math.PI * 2;
 const PARTICLE_CAP = 200;
 
+// --- Photorealistic assets -------------------------------------------------
+// Top-down photo sprites (starling, hawk, agricultural ground) loaded once
+// at module init. _drawBird / _drawRaptor / _paintAmbiance blit these when
+// available; while images are still loading the renderer falls back to its
+// procedural shapes (see _drawBirdShape below) so first paint is never blank.
+const PHOTO_BIRD_PX = 28;     // displayed bird size in logical px
+const PHOTO_PRED_PX = 78;     // displayed predator size in logical px
+const ASSET_BASE = new URL('../sprites/', import.meta.url).href;
+const STARLING_IMG = new Image();
+const HAWK_IMG = new Image();
+const GROUND_IMG = new Image();
+STARLING_IMG.src = ASSET_BASE + 'starling.png';
+HAWK_IMG.src     = ASSET_BASE + 'hawk.png';
+GROUND_IMG.src   = ASSET_BASE + 'ground.jpg';
+
 // Sprite-cache bucketing. 8×16 = 128 lazy sprites max (≈ 4 MB worst case
 // at 96×96 RGBA), but in practice only the visited buckets are created.
 const DENSITY_BUCKETS = 8;
@@ -146,14 +161,23 @@ export class Renderer {
   }
 
   _paintAmbiance(ctx) {
-    // Fully opaque refill — acts as the per-frame clear, no motion blur.
+    // Per-frame clear: paint the photo ground (covers full canvas) then a
+    // soft dark vignette at the corners so the boids stay legible.
     ctx.globalCompositeOperation = 'source-over';
-    const g = ctx.createRadialGradient(
-      this._spot.x, this._spot.y, 0,
-      this._spot.x, this._spot.y, 200);
-    g.addColorStop(0, 'rgb(16, 19, 26)');  // ≈ oklch(0.12 0.02 220), night blue
-    g.addColorStop(1, BG);
-    ctx.fillStyle = g;
+    if (GROUND_IMG.complete && GROUND_IMG.naturalWidth) {
+      ctx.drawImage(GROUND_IMG, 0, 0, this.w, this.h);
+    } else {
+      ctx.fillStyle = BG;
+      ctx.fillRect(0, 0, this.w, this.h);
+    }
+    // Vignette — darker at corners, transparent in the central zone where
+    // the flock typically sits. Keeps the photo visible but unobtrusive.
+    const cx = this.w / 2, cy = this.h / 2;
+    const r = Math.max(this.w, this.h) * 0.7;
+    const v = ctx.createRadialGradient(cx, cy, r * 0.45, cx, cy, r);
+    v.addColorStop(0, 'rgba(0, 0, 0, 0)');
+    v.addColorStop(1, 'rgba(0, 0, 0, 0.55)');
+    ctx.fillStyle = v;
     ctx.fillRect(0, 0, this.w, this.h);
   }
 
@@ -213,6 +237,26 @@ export class Renderer {
   // ---- Birds (sprite blit) ------------------------------------------------
 
   _drawBird(ctx, b, now) {
+    // If the photoreal starling sprite has loaded, blit it with a subtle
+    // wing-flap squish (scale_y oscillates with the existing flap phase).
+    // The original head-pointing-up sprite needs an extra +PI/2 rotation
+    // since the engine's heading vector is along +x in canvas space.
+    if (STARLING_IMG.complete && STARLING_IMG.naturalWidth) {
+      const speed = Math.sqrt(b.vx * b.vx + b.vy * b.vy);
+      const phase = b.phase || ((b.x * 0.1) % TAU);
+      // 0.85 .. 1.0 — gentle vertical squish, never inverts.
+      const flap = 0.92 + 0.08 * Math.sin(phase + now * 0.012);
+      const size = PHOTO_BIRD_PX;
+      const half = size / 2;
+      ctx.save();
+      ctx.translate(b.x, b.y);
+      ctx.rotate(Math.atan2(b.vy, b.vx) + Math.PI / 2);
+      ctx.scale(1, flap);
+      ctx.drawImage(STARLING_IMG, -half, -half, size, size);
+      ctx.restore();
+      return;
+    }
+    // Fallback — original procedural sprite cache.
     const speed = Math.sqrt(b.vx * b.vx + b.vy * b.vy);
     const phase = b.phase || ((b.x * 0.1) % TAU);
     const flap = Math.sin(phase + now * 0.006) * (speed * 0.2);
@@ -293,16 +337,32 @@ export class Renderer {
   // ---- Raptor predator -----------------------------------------------------
 
   _drawRaptor(ctx, p, now) {
+    // Photoreal hawk sprite if loaded, with subtle scale-Y flap.
+    if (HAWK_IMG.complete && HAWK_IMG.naturalWidth) {
+      const angle = Math.atan2(p.vy, p.vx);
+      const phase = p.phase || ((p.x * 0.1) % TAU);
+      // Slow, dramatic flap — bigger amplitude than prey.
+      const flap = 0.85 + 0.15 * Math.sin(phase + now * 0.008);
+      const size = PHOTO_PRED_PX;
+      const half = size / 2;
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate(angle + Math.PI / 2);
+      ctx.scale(1, flap);
+      ctx.drawImage(HAWK_IMG, -half, -half, size, size);
+      ctx.restore();
+      return;
+    }
+    // Fallback — original procedural raptor.
     const speed = Math.sqrt(p.vx * p.vx + p.vy * p.vy);
     const angle = Math.atan2(p.vy, p.vx);
     const phase = p.phase || ((p.x * 0.1) % TAU);
-    // Slower than prey (0.006) and wider amplitude — reads as a powerful flap.
     const flap = Math.sin(phase + now * 0.005) * 0.6;
 
     ctx.save();
     ctx.translate(p.x, p.y);
     ctx.rotate(angle);
-    ctx.scale(1, 1); // 1/3 of previous (was scale(3,3)) — now 1× a normal bird's geometry
+    ctx.scale(1, 1);
 
     const body = '#4e342e';
     const belly = '#a1887f';
