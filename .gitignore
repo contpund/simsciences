@@ -1,0 +1,8 @@
+# Local video build artifacts (frames, segments, graded clips, work files)
+/build/
+
+# Rendered final videos — large binaries, exceed GitHub size limits
+/assets/
+
+# Local editing workspace (music masters, etc.)
+/edit/
