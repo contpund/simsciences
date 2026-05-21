@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Double Pendule — SimSciences</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="css/style.css" />
+  <script type="module" src="js/main.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <h1 data-i18n="appTitle">Double Pendule</h1>
+      <span class="subtitle" data-i18n="subtitle">Chaos déterministe — Newton + Lorenz</span>
+    </div>
+    <nav class="lang" aria-label="Language" data-i18n-tip="tip.lang">
+      <button data-lang="fr" lang="fr" title="Français">🇫🇷</button>
+      <button data-lang="en" lang="en" title="English">🇬🇧</button>
+    </nav>
+  </header>
+
+  <main class="layout">
+    <section class="stage">
+      <canvas id="sim" width="800" height="600"></canvas>
+    </section>
+
+    <aside class="sidebar">
+      <section class="panel">
+        <h2 data-i18n="sectionParams">Paramètres</h2>
+
+        <div class="ctrl">
+          <label for="slL1"><span data-i18n="L1">Bras supérieur (L₁)</span><b id="valL1">1.60 m</b></label>
+          <input type="range" id="slL1" min="0.5" max="2.5" step="0.05" value="1.6" data-i18n-tip="tip.L1" />
+        </div>
+        <div class="ctrl">
+          <label for="slL2"><span data-i18n="L2">Bras inférieur (L₂)</span><b id="valL2">1.40 m</b></label>
+          <input type="range" id="slL2" min="0.5" max="2.5" step="0.05" value="1.4" data-i18n-tip="tip.L2" />
+        </div>
+        <div class="ctrl">
+          <label for="slM1"><span data-i18n="m1">Masse supérieure (m₁)</span><b id="valM1">1.00 kg</b></label>
+          <input type="range" id="slM1" min="0.2" max="5" step="0.1" value="1" data-i18n-tip="tip.m1" />
+        </div>
+        <div class="ctrl">
+          <label for="slM2"><span data-i18n="m2">Masse inférieure (m₂)</span><b id="valM2">1.00 kg</b></label>
+          <input type="range" id="slM2" min="0.2" max="5" step="0.1" value="1" data-i18n-tip="tip.m2" />
+        </div>
+        <div class="ctrl">
+          <label for="slT1"><span data-i18n="theta1">Angle initial θ₁</span><b id="valT1">119°</b></label>
+          <input type="range" id="slT1" min="0" max="180" step="1" value="119" data-i18n-tip="tip.theta1" />
+        </div>
+        <div class="ctrl">
+          <label for="slT2"><span data-i18n="theta2">Angle initial θ₂</span><b id="valT2">99°</b></label>
+          <input type="range" id="slT2" min="0" max="180" step="1" value="99" data-i18n-tip="tip.theta2" />
+        </div>
+        <div class="ctrl">
+          <label for="slDamping"><span data-i18n="damping">Amortissement</span><b id="valDamping">0.000</b></label>
+          <input type="range" id="slDamping" min="0" max="0.1" step="0.001" value="0" data-i18n-tip="tip.damping" />
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2 data-i18n="sectionOptions">Options</h2>
+        <label class="toggle" data-i18n-tip="tip.showTrace">
+          <input type="checkbox" id="tgTrace" checked />
+          <span data-i18n="showTrace">Afficher la trace</span>
+        </label>
+        <label class="toggle" data-i18n-tip="tip.twin">
+          <input type="checkbox" id="tgTwin" />
+          <span data-i18n="twin">Ajouter un jumeau (±0.0001 rad)</span>
+        </label>
+      </section>
+
+      <section class="panel">
+        <h2 data-i18n="sectionPresets">Préréglages</h2>
+        <div class="presets">
+          <button id="btnGentle" data-i18n="presetGentle" data-i18n-tip="tip.presetGentle">Doux</button>
+          <button id="btnWild" data-i18n="presetWild" data-i18n-tip="tip.presetWild">Chaotique</button>
+          <button id="btnAsymmetric" data-i18n="presetAsymmetric" data-i18n-tip="tip.presetAsymmetric">Asymétrique</button>
+          <button id="btnReset" class="ghost" data-i18n="reset" data-i18n-tip="tip.reset">Réinitialiser</button>
+        </div>
+        <button id="btnPause" class="wide" data-i18n="pause" data-i18n-tip="tip.pause">Pause</button>
+      </section>
+    </aside>
+  </main>
+</body>
+</html>

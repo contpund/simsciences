@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="16" fill="#16161a"/>
+  <!-- Moitié gauche de l'oiseau en bleu -->
+  <path d="M32 12 L12 48 L32 38 Z" fill="#5fb0ff"/>
+  <!-- Moitié droite en orange chaud -->
+  <path d="M32 12 L52 48 L32 38 Z" fill="#ffae45"/>
+</svg>
