@@ -19,7 +19,8 @@ export class Renderer {
   constructor(canvas, engine) {
     this.canvas = canvas;
     this.engine = engine;
-    this.ctx = canvas.getContext('2d', { alpha: false });
+    // Transparent canvas so the SVG desk scene shows through underneath.
+    this.ctx = canvas.getContext('2d', { alpha: true });
     this._lastT = performance.now();
     this._fps = 60;
     this.showTrace = true;
@@ -40,12 +41,9 @@ export class Renderer {
   }
 
   _paintBackground() {
-    const ctx = this.ctx;
-    const g = ctx.createLinearGradient(0, 0, 0, this.h);
-    g.addColorStop(0, BG_TOP);
-    g.addColorStop(1, BG_BOTTOM);
-    ctx.fillStyle = g;
-    ctx.fillRect(0, 0, this.w, this.h);
+    // Canvas is transparent — the SVG desk scene underneath provides the
+    // visual backdrop. Just clear each frame so old strokes don't trail.
+    this.ctx.clearRect(0, 0, this.w, this.h);
   }
 
   // Convert physics units (meters from pivot) to canvas pixels.

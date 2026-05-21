@@ -97,7 +97,22 @@ html, body {
     0 0 0 1px rgba(95, 176, 255, 0.12),
     0 18px 50px rgba(0, 0, 0, 0.55);
 }
-#sim { display: block; width: 100%; height: 100%; }
+#sim {
+  display: block;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  z-index: 2;
+}
+/* SVG desk scene sits beneath the canvas */
+.desk-scene {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
 #sim.crosshair { cursor: crosshair; }
 
 /* Game-viewport vignette: darken the edges, never block input. */

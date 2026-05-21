@@ -8,30 +8,50 @@
 // is enabled, its initial state is the first state plus an infinitesimal
 // angular offset (EPSILON_DIVERGE) — the canonical chaos demo.
 
+// Default state: both arms point straight UP, pendulum frozen — an unstable
+// equilibrium. Pressing the "Start" button releases the pendulum (with a
+// tiny perturbation on θ1 to guarantee a visible fall under IEEE-754
+// floating-point noise).
 export const DEFAULTS = {
-  L1: 1.6,
-  L2: 1.4,
+  L1: 1.5,
+  L2: 1.5,
   m1: 1.0,
   m2: 1.0,
-  theta1: Math.PI * 0.66,   // ~119°
-  theta2: Math.PI * 0.55,   // ~99°
+  theta1: Math.PI,      // 180° — straight up from the pivot
+  theta2: Math.PI,      // 180° — straight up from bob 1
   damping: 0,
   twinEnabled: false,
 };
 
 export const GRAVITY = 9.81;
 export const EPSILON_DIVERGE = 1e-4;   // 0.0001 rad ≈ 0.0057°
+export const RELEASE_KICK = 5e-3;      // small angular nudge to break the upright equilibrium
 
 export class DoublePendulumEngine {
   constructor() {
     this.params = { ...DEFAULTS };
-    this.paused = false;
+    // Start paused so the page loads with the pendulum frozen in the
+    // upright position. The user clicks "Start" to release it.
+    this.paused = true;
+    this.released = false;
     this.t = 0;
     // Each pendulum keeps a trail of the bob tip in pixel/world units.
     this.trailA = [];
     this.trailB = [];
     this.trailMax = 600;
     this._reset(this.params.theta1, this.params.theta2);
+  }
+
+  // Releases the pendulum from its current (upright) configuration:
+  // unpauses and applies a tiny θ1 nudge so the fall starts visibly.
+  release() {
+    this.A = [this.params.theta1 + RELEASE_KICK, this.params.theta2, 0, 0];
+    this.B = [this.A[0] + EPSILON_DIVERGE, this.A[1], 0, 0];
+    this.trailA.length = 0;
+    this.trailB.length = 0;
+    this.t = 0;
+    this.paused = false;
+    this.released = true;
   }
 
   _reset(th1, th2) {
@@ -45,6 +65,8 @@ export class DoublePendulumEngine {
   reset() {
     this.params = { ...this.params, theta1: DEFAULTS.theta1, theta2: DEFAULTS.theta2 };
     this._reset(this.params.theta1, this.params.theta2);
+    this.paused = true;
+    this.released = false;
   }
 
   setParam(name, value) {

@@ -22,6 +22,75 @@
 
   <main class="layout">
     <section class="stage">
+      <!-- SVG desk illustration as a scenic backdrop. The pendulum's pivot
+           sits at the bracket; the desk surface fills the lower band. The
+           viewBox uses a 100×100 unit system that scales with .stage so
+           the bracket stays aligned with the canvas pivot (~32% from top). -->
+      <svg class="desk-scene" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+        <defs>
+          <linearGradient id="wallG" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#0d1118"/>
+            <stop offset="55%" stop-color="#0f1320"/>
+            <stop offset="100%" stop-color="#15192a"/>
+          </linearGradient>
+          <linearGradient id="deskG" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%"   stop-color="#5c3f24"/>
+            <stop offset="35%"  stop-color="#42301c"/>
+            <stop offset="100%" stop-color="#1f1610"/>
+          </linearGradient>
+          <linearGradient id="lampG" x1="0" y1="0" x2="1" y2="0.6">
+            <stop offset="0%"  stop-color="rgba(255, 200, 130, 0.30)"/>
+            <stop offset="60%" stop-color="rgba(255, 200, 130, 0.06)"/>
+            <stop offset="100%" stop-color="rgba(255, 200, 130, 0)"/>
+          </linearGradient>
+          <radialGradient id="vignette" cx="0.5" cy="0.35" r="0.85">
+            <stop offset="55%" stop-color="rgba(0,0,0,0)"/>
+            <stop offset="100%" stop-color="rgba(0,0,0,0.65)"/>
+          </radialGradient>
+          <pattern id="grain" patternUnits="userSpaceOnUse" width="6" height="0.3">
+            <line x1="0" y1="0.15" x2="6" y2="0.15" stroke="rgba(40, 25, 12, 0.35)" stroke-width="0.06"/>
+          </pattern>
+        </defs>
+
+        <!-- Wall -->
+        <rect x="0" y="0" width="100" height="73" fill="url(#wallG)"/>
+        <!-- Soft warm lamp wash from the upper-left -->
+        <rect x="0" y="0" width="100" height="73" fill="url(#lampG)"/>
+
+        <!-- Desk top -->
+        <rect x="0" y="73" width="100" height="27" fill="url(#deskG)"/>
+        <rect x="0" y="73" width="100" height="27" fill="url(#grain)" opacity="0.7"/>
+        <!-- Subtle desk-edge shadow (line where desk meets wall) -->
+        <rect x="0" y="72.6" width="100" height="0.6" fill="rgba(0,0,0,0.55)"/>
+        <!-- Front edge highlight -->
+        <rect x="0" y="73" width="100" height="0.25" fill="rgba(255, 220, 180, 0.10)"/>
+
+        <!-- Pendulum bracket: vertical post rising from the desk, then a
+             horizontal arm reaching out to the pivot (which lives near
+             y=32 in this viewBox — matches renderer's cy = h * 0.32). -->
+        <!-- Wall mounting plate behind the bracket for visual weight -->
+        <rect x="46" y="29" width="8" height="6" rx="0.8" fill="#2a2118" stroke="#7a5a40" stroke-width="0.15"/>
+        <circle cx="47" cy="32" r="0.45" fill="#0e0a05"/>
+        <circle cx="53" cy="32" r="0.45" fill="#0e0a05"/>
+        <!-- Horizontal arm reaching from wall plate to the pivot -->
+        <rect x="48.5" y="31.6" width="6" height="0.9" fill="#7a5a40"/>
+        <!-- Pivot housing -->
+        <circle cx="50" cy="32" r="1.2" fill="#2a1f12" stroke="#aa8866" stroke-width="0.3"/>
+        <circle cx="50" cy="32" r="0.4" fill="#0a0805"/>
+        <!-- Small props on desk for context (subtle, far from the action) -->
+        <!-- Notebook stack right -->
+        <rect x="82" y="84.5" width="14" height="3.4" rx="0.3" fill="#3a3024" stroke="#1a140d" stroke-width="0.1"/>
+        <rect x="82" y="82.0" width="14" height="2.6" rx="0.3" fill="#4a2f1f" stroke="#1a140d" stroke-width="0.1"/>
+        <rect x="84" y="80.0" width="11" height="2.1" rx="0.3" fill="#2c4a3a" stroke="#1a140d" stroke-width="0.1"/>
+        <!-- Small lamp base bottom-left -->
+        <rect x="4" y="86" width="8" height="2" rx="0.4" fill="#5a4030"/>
+        <line x1="8" y1="86" x2="8" y2="78" stroke="#5a4030" stroke-width="0.4"/>
+        <path d="M 4 78 L 12 78 L 11 73.5 L 5 73.5 Z" fill="#8a6a4a" stroke="#3a2818" stroke-width="0.12"/>
+        <ellipse cx="8" cy="78" rx="3.8" ry="0.4" fill="#1a120a"/>
+
+        <!-- Soft global vignette to focus attention on the pendulum -->
+        <rect x="0" y="0" width="100" height="100" fill="url(#vignette)"/>
+      </svg>
       <canvas id="sim" width="800" height="600"></canvas>
     </section>
 
@@ -30,12 +99,12 @@
         <h2 data-i18n="sectionParams">Paramètres</h2>
 
         <div class="ctrl">
-          <label for="slL1"><span data-i18n="L1">Bras supérieur (L₁)</span><b id="valL1">1.60 m</b></label>
-          <input type="range" id="slL1" min="0.5" max="2.5" step="0.05" value="1.6" data-i18n-tip="tip.L1" />
+          <label for="slL1"><span data-i18n="L1">Bras supérieur (L₁)</span><b id="valL1">1.50 m</b></label>
+          <input type="range" id="slL1" min="0.5" max="2.5" step="0.05" value="1.5" data-i18n-tip="tip.L1" />
         </div>
         <div class="ctrl">
-          <label for="slL2"><span data-i18n="L2">Bras inférieur (L₂)</span><b id="valL2">1.40 m</b></label>
-          <input type="range" id="slL2" min="0.5" max="2.5" step="0.05" value="1.4" data-i18n-tip="tip.L2" />
+          <label for="slL2"><span data-i18n="L2">Bras inférieur (L₂)</span><b id="valL2">1.50 m</b></label>
+          <input type="range" id="slL2" min="0.5" max="2.5" step="0.05" value="1.5" data-i18n-tip="tip.L2" />
         </div>
         <div class="ctrl">
           <label for="slM1"><span data-i18n="m1">Masse supérieure (m₁)</span><b id="valM1">1.00 kg</b></label>
@@ -46,12 +115,12 @@
           <input type="range" id="slM2" min="0.2" max="5" step="0.1" value="1" data-i18n-tip="tip.m2" />
         </div>
         <div class="ctrl">
-          <label for="slT1"><span data-i18n="theta1">Angle initial θ₁</span><b id="valT1">119°</b></label>
-          <input type="range" id="slT1" min="0" max="180" step="1" value="119" data-i18n-tip="tip.theta1" />
+          <label for="slT1"><span data-i18n="theta1">Angle initial θ₁</span><b id="valT1">180°</b></label>
+          <input type="range" id="slT1" min="0" max="180" step="1" value="180" data-i18n-tip="tip.theta1" />
         </div>
         <div class="ctrl">
-          <label for="slT2"><span data-i18n="theta2">Angle initial θ₂</span><b id="valT2">99°</b></label>
-          <input type="range" id="slT2" min="0" max="180" step="1" value="99" data-i18n-tip="tip.theta2" />
+          <label for="slT2"><span data-i18n="theta2">Angle initial θ₂</span><b id="valT2">180°</b></label>
+          <input type="range" id="slT2" min="0" max="180" step="1" value="180" data-i18n-tip="tip.theta2" />
         </div>
         <div class="ctrl">
           <label for="slDamping"><span data-i18n="damping">Amortissement</span><b id="valDamping">0.000</b></label>
@@ -79,7 +148,7 @@
           <button id="btnAsymmetric" data-i18n="presetAsymmetric" data-i18n-tip="tip.presetAsymmetric">Asymétrique</button>
           <button id="btnReset" class="ghost" data-i18n="reset" data-i18n-tip="tip.reset">Réinitialiser</button>
         </div>
-        <button id="btnPause" class="wide" data-i18n="pause" data-i18n-tip="tip.pause">Pause</button>
+        <button id="btnPause" class="wide" data-i18n="start" data-i18n-tip="tip.start">▶ Start</button>
       </section>
     </aside>
   </main>
