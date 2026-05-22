@@ -386,6 +386,33 @@
 
     .card-cta {
       margin-top: 8px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .btn-yt {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 22px;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 500;
+      font-family: 'Inter', sans-serif;
+      background: rgba(255, 0, 0, 0.06);
+      color: var(--text);
+      border: 1px solid rgba(255, 80, 80, 0.35);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .btn-yt:hover {
+      border-color: rgba(255, 80, 80, 0.7);
+      background: rgba(255, 0, 0, 0.12);
+      transform: translateY(-1px);
+    }
+    .btn-yt .yt-glyph {
+      color: #ff3b3b;
+      font-size: 18px;
     }
 
     /* About */
@@ -589,6 +616,10 @@
           <a href="./boids/flocking/" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
             Launch Simulation →
           </a>
+          <a href="https://www.youtube.com/watch?v=ar7ySMzFaW8" target="_blank" rel="noopener noreferrer" class="btn-yt" aria-label="Watch episode 01 on YouTube">
+            <i class="fa-brands fa-youtube yt-glyph"></i>
+            <span>Watch the explainer</span>
+          </a>
         </div>
       </article>
 
@@ -636,6 +667,10 @@
         <div class="card-cta">
           <a href="./double-pendulum/" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
             Launch Simulation →
+          </a>
+          <a href="https://youtu.be/QzORK2P0zb0" target="_blank" rel="noopener noreferrer" class="btn-yt" aria-label="Watch episode 02 on YouTube">
+            <i class="fa-brands fa-youtube yt-glyph"></i>
+            <span>Watch the explainer</span>
           </a>
         </div>
       </article>
