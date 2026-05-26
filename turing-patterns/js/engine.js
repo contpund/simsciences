@@ -355,7 +355,7 @@ export const PRESETS = {
   // dictate the topology. 'random' is reserved for the default page load
   // where the goal is a screen full of cells immediately.
   leopard:    { feed: 0.0250, kill: 0.0600, dA: 1.0, dB: 0.5, palette: 'leopard',  seed: 'center' },
-  zebra:      { feed: 0.0300, kill: 0.0620, dA: 1.0, dB: 0.5, palette: 'zebra',    seed: 'center' },
+  zebra:      { feed: 0.0400, kill: 0.0600, dA: 1.0, dB: 0.5, palette: 'zebra',    seed: 'center' },
   coral:      { feed: 0.0620, kill: 0.0620, dA: 1.0, dB: 0.5, palette: 'coral',    seed: 'center' },
   mitosis:    { feed: 0.0367, kill: 0.0649, dA: 1.0, dB: 0.5, palette: 'sim',      seed: 'center' },
   labyrinth:  { feed: 0.0290, kill: 0.0570, dA: 1.0, dB: 0.5, palette: 'emerald',  seed: 'center' },
