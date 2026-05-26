@@ -674,6 +674,59 @@
           </a>
         </div>
       </article>
+
+      <article class="card">
+        <div class="card-header">
+          <h3>The Butterfly Equation</h3>
+          <span class="badge">Episode 03</span>
+        </div>
+
+        <div class="tags">
+          <span class="tag">Strange Attractor</span>
+          <span class="tag">Atmospheric Physics</span>
+          <span class="tag">Butterfly Effect</span>
+        </div>
+
+        <p class="card-desc">
+          Three coupled equations. Three variables. A trajectory that never repeats, never escapes — and is impossible to predict. The shape of weather.
+        </p>
+
+        <button class="read-more-toggle" type="button" aria-expanded="false" aria-controls="sci-lorenz">
+          Read more <span class="chevron">▾</span>
+        </button>
+
+        <div class="scientific-text" id="sci-lorenz">
+          <p><strong>The Lorenz Attractor — 1963</strong></p>
+          <p>
+            Edward Lorenz built a toy model of atmospheric convection — a heated fluid layer in a gravitational field. He kept only what he believed essential and reduced the Navier-Stokes equations to three coupled ordinary differential equations: dx/dt = σ(y−x), dy/dt = x(ρ−z)−y, dz/dt = xy−βz. Three variables. Two nonlinearities. No randomness.
+          </p>
+          <p>
+            What he discovered, plotted on his lab's printer, was a shape no one had seen before: a trajectory that orbits forever inside a bounded region of space without ever crossing itself, without ever settling, without ever repeating. A strange attractor.
+          </p>
+          <ul>
+            <li><strong>Deterministic</strong> — same equations, same initial point → identical trajectories, forever</li>
+            <li><strong>Bounded</strong> — the orbit never escapes a finite region of state space</li>
+            <li><strong>Non-periodic</strong> — it never closes a loop, never repeats a previous point</li>
+            <li><strong>Sensitive</strong> — two starts ε = 10⁻⁵ apart diverge by macroscopic amounts in seconds</li>
+          </ul>
+          <p>
+            This is the mathematical reason weather forecasting stops being useful past 10–14 days, no matter how powerful your computer. It is also the geometric signature of every system where local rules generate global dynamics that cannot be solved analytically — only watched.
+          </p>
+          <p class="reference">
+            Lorenz, E. N. (1963). Deterministic Nonperiodic Flow. Journal of the Atmospheric Sciences, 20(2), 130–141.
+          </p>
+        </div>
+
+        <div class="card-cta">
+          <a href="./lorenz-attractor/" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+            Launch Simulation →
+          </a>
+          <a href="https://youtube.com/@simsciences" target="_blank" rel="noopener noreferrer" class="btn-yt" aria-label="Watch episode 03 on YouTube">
+            <i class="fa-brands fa-youtube yt-glyph"></i>
+            <span>Watch the explainer</span>
+          </a>
+        </div>
+      </article>
     </section>
 
     <section id="about">

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Attracteur de Lorenz — SimSciences</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="css/style.css" />
+  <script type="module" src="js/main.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <h1 data-i18n="appTitle">Attracteur de Lorenz</h1>
+      <span class="subtitle" data-i18n="subtitle">L'équation qui rend la météo imprévisible</span>
+    </div>
+    <nav class="lang" aria-label="Language" data-i18n-tip="tip.lang">
+      <button data-lang="fr" lang="fr" title="Français">🇫🇷</button>
+      <button data-lang="en" lang="en" title="English">🇬🇧</button>
+    </nav>
+  </header>
+
+  <main class="layout">
+    <section class="stage">
+      <canvas id="sim" width="800" height="600"></canvas>
+      <div class="citation" data-i18n="citation">Lorenz, E. N. (1963). Deterministic Nonperiodic Flow.</div>
+    </section>
+
+    <aside class="sidebar">
+      <section class="panel">
+        <h2 data-i18n="sectionParams">Paramètres</h2>
+
+        <div class="ctrl">
+          <label for="slSigma"><span data-i18n="sigma">σ (convection)</span><b id="valSigma">10.00</b></label>
+          <input type="range" id="slSigma" min="0.5" max="20" step="0.1" value="10" data-i18n-tip="tip.sigma" />
+        </div>
+        <div class="ctrl">
+          <label for="slRho"><span data-i18n="rho">ρ (gradient thermique)</span><b id="valRho">28.00</b></label>
+          <input type="range" id="slRho" min="0.1" max="200" step="0.1" value="28" data-i18n-tip="tip.rho" />
+        </div>
+        <div class="ctrl">
+          <label for="slBeta"><span data-i18n="beta">β (géométrie)</span><b id="valBeta">2.667</b></label>
+          <input type="range" id="slBeta" min="0.5" max="5" step="0.005" value="2.667" data-i18n-tip="tip.beta" />
+        </div>
+        <div class="ctrl">
+          <label for="slSpeed"><span data-i18n="speed">Vitesse</span><b id="valSpeed">1.00×</b></label>
+          <input type="range" id="slSpeed" min="0.1" max="3" step="0.05" value="1" data-i18n-tip="tip.speed" />
+        </div>
+        <div class="ctrl">
+          <label for="slTrail"><span data-i18n="trail">Longueur de trace</span><b id="valTrail">2500</b></label>
+          <input type="range" id="slTrail" min="200" max="6000" step="100" value="2500" data-i18n-tip="tip.trail" />
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2 data-i18n="sectionOptions">Options</h2>
+        <label class="toggle" data-i18n-tip="tip.autoRotate">
+          <input type="checkbox" id="tgRotate" checked />
+          <span data-i18n="autoRotate">Caméra orbitale</span>
+        </label>
+        <label class="toggle twin" data-i18n-tip="tip.showTwin">
+          <input type="checkbox" id="tgTwin" />
+          <span data-i18n="showTwin">Lancer le jumeau (Δ = 10⁻⁵)</span>
+        </label>
+      </section>
+
+      <section class="panel">
+        <h2 data-i18n="sectionPresets">Préréglages</h2>
+        <div class="presets">
+          <button id="btnClassic" data-i18n="presetClassic" data-i18n-tip="tip.presetClassic">Papillon classique</button>
+          <button id="btnStable" data-i18n="presetStable" data-i18n-tip="tip.presetStable">Point fixe</button>
+          <button id="btnPeriodic" data-i18n="presetPeriodic" data-i18n-tip="tip.presetPeriodic">Orbite périodique</button>
+          <button id="btnWild" data-i18n="presetWild" data-i18n-tip="tip.presetWild">Chaos++</button>
+          <button id="btnReset" class="ghost" data-i18n="reset" data-i18n-tip="tip.reset">Réinitialiser</button>
+        </div>
+        <button id="btnPause" class="wide" data-i18n="start" data-i18n-tip="tip.pause">⏸ Pause</button>
+      </section>
+    </aside>
+  </main>
+</body>
+</html>
