@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Motifs de Turing — SimSciences</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="css/style.css" />
+  <script type="module" src="js/main.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <h1 data-i18n="appTitle">Motifs de Turing</h1>
+      <span class="subtitle" data-i18n="subtitle">L'équation derrière les taches du léopard</span>
+    </div>
+    <nav class="lang" aria-label="Language" data-i18n-tip="tip.lang">
+      <button data-lang="fr" lang="fr" title="Français">🇫🇷</button>
+      <button data-lang="en" lang="en" title="English">🇬🇧</button>
+    </nav>
+  </header>
+
+  <main class="layout">
+    <section class="stage">
+      <canvas id="sim" width="800" height="800"></canvas>
+      <div id="fallback">
+        <h2>WebGL2 + float textures required</h2>
+        <p>This simulation runs on the GPU and needs WebGL2 with the
+           <code>EXT_color_buffer_float</code> extension.</p>
+        <p id="fallback-msg"></p>
+      </div>
+      <div class="citation" data-i18n="citation">Turing, A. M. (1952). The Chemical Basis of Morphogenesis.</div>
+    </section>
+
+    <aside class="sidebar">
+      <section class="panel">
+        <h2 data-i18n="sectionParams">Paramètres</h2>
+
+        <div class="ctrl">
+          <label for="slFeed"><span data-i18n="feed">f (alimentation)</span><b id="valFeed">0.0367</b></label>
+          <input type="range" id="slFeed" min="0.005" max="0.085" step="0.0005" value="0.0367" data-i18n-tip="tip.feed" />
+        </div>
+        <div class="ctrl">
+          <label for="slKill"><span data-i18n="kill">k (élimination)</span><b id="valKill">0.0649</b></label>
+          <input type="range" id="slKill" min="0.040" max="0.075" step="0.0005" value="0.0649" data-i18n-tip="tip.kill" />
+        </div>
+        <div class="ctrl">
+          <label for="slDA"><span data-i18n="dA">D_A (diffusion A)</span><b id="valDA">1.00</b></label>
+          <input type="range" id="slDA" min="0.5" max="1.5" step="0.01" value="1.0" data-i18n-tip="tip.dA" />
+        </div>
+        <div class="ctrl">
+          <label for="slDB"><span data-i18n="dB">D_B (diffusion B)</span><b id="valDB">0.50</b></label>
+          <input type="range" id="slDB" min="0.1" max="0.6" step="0.01" value="0.5" data-i18n-tip="tip.dB" />
+        </div>
+        <div class="ctrl">
+          <label for="slSpeed"><span data-i18n="speed">Vitesse</span><b id="valSpeed">6×</b></label>
+          <input type="range" id="slSpeed" min="1" max="20" step="1" value="6" data-i18n-tip="tip.speed" />
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2 data-i18n="sectionPalette">Palette</h2>
+        <div class="palette-grid" data-i18n-tip="tip.palette">
+          <button class="palette-btn" data-palette="leopard" data-i18n="paletteLeopard">🐆 Léopard</button>
+          <button class="palette-btn" data-palette="zebra"   data-i18n="paletteZebra">🦓 Zèbre</button>
+          <button class="palette-btn" data-palette="coral"   data-i18n="paletteCoral">🐠 Corail</button>
+          <button class="palette-btn" data-palette="emerald" data-i18n="paletteEmerald">🌿 Émeraude</button>
+          <button class="palette-btn" data-palette="lava"    data-i18n="paletteLava">🔥 Lave</button>
+          <button class="palette-btn" data-palette="sim"     data-i18n="paletteSim">🔬 SimSciences</button>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2 data-i18n="sectionPresets">Préréglages</h2>
+        <div class="presets">
+          <button id="btnLeopard"   data-i18n="presetLeopard"   data-i18n-tip="tip.presetLeopard">Taches de léopard</button>
+          <button id="btnZebra"     data-i18n="presetZebra"     data-i18n-tip="tip.presetZebra">Rayures de zèbre</button>
+          <button id="btnCoral"     data-i18n="presetCoral"     data-i18n-tip="tip.presetCoral">Corail</button>
+          <button id="btnMitosis"   data-i18n="presetMitosis"   data-i18n-tip="tip.presetMitosis">Mitose</button>
+          <button id="btnLabyrinth" data-i18n="presetLabyrinth" data-i18n-tip="tip.presetLabyrinth">Labyrinthe</button>
+          <button id="btnSolitons"  data-i18n="presetSolitons"  data-i18n-tip="tip.presetSolitons">Solitons</button>
+          <button id="btnReset" class="ghost" data-i18n="reset" data-i18n-tip="tip.reset">Réinitialiser</button>
+        </div>
+        <button id="btnPause" class="wide" data-i18n="pause" data-i18n-tip="tip.pause">⏸ Pause</button>
+        <p class="hint" data-i18n="paint">Pinceau (clic-glisser)</p>
+      </section>
+    </aside>
+  </main>
+</body>
+</html>

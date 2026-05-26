@@ -289,6 +289,16 @@
       text-transform: uppercase;
       font-family: 'Space Grotesk', sans-serif;
     }
+    .badge.bonus-badge {
+      background: rgba(255, 152, 68, 0.10);
+      color: #ff9844;
+      border-color: rgba(255, 152, 68, 0.30);
+    }
+    .card.bonus .card-header h3::before {
+      content: '🧪 ';
+      font-size: 0.85em;
+      opacity: 0.75;
+    }
 
     .tags {
       display: flex;
@@ -677,8 +687,64 @@
 
       <article class="card">
         <div class="card-header">
-          <h3>The Butterfly Equation</h3>
+          <h3>Living Patterns</h3>
           <span class="badge">Episode 03</span>
+        </div>
+
+        <div class="tags">
+          <span class="tag">Reaction-Diffusion</span>
+          <span class="tag">Morphogenesis</span>
+          <span class="tag">Emergence</span>
+        </div>
+
+        <p class="card-desc">
+          A leopard's spots, a zebra's stripes, the bands on a tropical fish — Alan Turing reduced them all to two chemicals competing on a grid. Watch the pattern decide itself.
+        </p>
+
+        <button class="read-more-toggle" type="button" aria-expanded="false" aria-controls="sci-turing">
+          Read more <span class="chevron">▾</span>
+        </button>
+
+        <div class="scientific-text" id="sci-turing">
+          <p><strong>The Chemical Basis of Morphogenesis — Turing, 1952</strong></p>
+          <p>
+            Two years before his death, Alan Turing — the man who broke Enigma and invented the universal computer — published a paper on biology. He asked a question nobody else was asking: where do the spots on a leopard come from? Why do zebras have stripes? Why are tropical fish painted with such precise patterns? The standard answer at the time was genetic — somewhere in the DNA, a blueprint specifies "spot here, stripe there." Turing suggested something stranger.
+          </p>
+          <p>
+            He proposed two chemicals — an "activator" A and an "inhibitor" B — diffusing across the developing embryo and reacting with each other. The activator produces more of itself AND of the inhibitor. The inhibitor degrades both. If the inhibitor diffuses faster than the activator, the uniform initial state becomes unstable, and stable spatial patterns spontaneously appear. No blueprint. Just two equations and a difference in diffusion rates.
+          </p>
+          <p>
+            Turing wrote them down in the Gray-Scott form below — two coupled reaction-diffusion equations. Slide the feed rate <strong>f</strong> and the kill rate <strong>k</strong> and you cross every animal in the savanna without changing a single line of code.
+          </p>
+          <ul>
+            <li><strong>Activator–inhibitor system</strong> — two chemicals, one promotes itself, one suppresses both</li>
+            <li><strong>Turing instability</strong> — uniform state becomes unstable when D_B &gt; D_A</li>
+            <li><strong>Universal pattern atlas</strong> — spots, stripes, mazes, mitosis, all on one (f, k) map</li>
+            <li><strong>Predicted before observed</strong> — chemicals matching Turing's model were only identified in 2012</li>
+          </ul>
+          <p>
+            The same equations describe the patterns on the lionfish, the regular spacing of hair follicles in your skin, the ridges in a fingerprint, and the bands of melanin that draw a fingernail's structure. A single chemical instability, written down in 1952 by a man dying of injustice, that turned out to draw most of life's surface.
+          </p>
+          <p class="reference">
+            Turing, A. M. (1952). The Chemical Basis of Morphogenesis. Philosophical Transactions of the Royal Society B, 237(641), 37–72.
+          </p>
+        </div>
+
+        <div class="card-cta">
+          <a href="./turing-patterns/" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+            Launch Simulation →
+          </a>
+          <a href="https://youtube.com/@simsciences" target="_blank" rel="noopener noreferrer" class="btn-yt" aria-label="Watch episode 03 on YouTube">
+            <i class="fa-brands fa-youtube yt-glyph"></i>
+            <span>Watch the explainer</span>
+          </a>
+        </div>
+      </article>
+
+      <article class="card bonus">
+        <div class="card-header">
+          <h3>The Butterfly Equation</h3>
+          <span class="badge bonus-badge">Bonus Lab</span>
         </div>
 
         <div class="tags">
@@ -720,10 +786,6 @@
         <div class="card-cta">
           <a href="./lorenz-attractor/" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
             Launch Simulation →
-          </a>
-          <a href="https://youtube.com/@simsciences" target="_blank" rel="noopener noreferrer" class="btn-yt" aria-label="Watch episode 03 on YouTube">
-            <i class="fa-brands fa-youtube yt-glyph"></i>
-            <span>Watch the explainer</span>
           </a>
         </div>
       </article>
