@@ -28,6 +28,12 @@ export class Renderer {
 
     this._lastTime = performance.now();
 
+    // Storm backdrop. Drawn cover-fit behind the attractor each frame once
+    // loaded; until then draw() falls back to the original radial gradient.
+    this.showBg = true;
+    this.bgImage = new Image();
+    this.bgImage.src = 'bg.jpg';
+
     this.resize();
   }
 
@@ -83,17 +89,30 @@ export class Renderer {
       this.yaw += this.orbitSpeed * elapsed;
     }
 
-    // Background — radial gradient from deep navy to near-black.
-    const bg = ctx.createRadialGradient(W / 2, H / 2, Math.min(W, H) * 0.05,
-                                        W / 2, H / 2, Math.max(W, H) * 0.85);
-    bg.addColorStop(0, '#10131a');
-    bg.addColorStop(1, '#04050a');
-    ctx.fillStyle = bg;
-    ctx.fillRect(0, 0, W, H);
-
-    // Subtle starfield — deterministic from a single PRNG seed so the
-    // captures stay reproducible.
-    this._drawStars(ctx, W, H);
+    // Background — storm backdrop (cover-fit) with a central darkening so
+    // the glowing attractor stays readable over it. Falls back to the
+    // original radial gradient + starfield until the image has loaded.
+    if (this.showBg && this.bgImage && this.bgImage.complete && this.bgImage.naturalWidth) {
+      this._drawCover(ctx, this.bgImage, W, H);
+      // Radial veil: darken the centre where the attractor lives, keep the
+      // lit storm edges. VEIL_ALPHA is the knob for readability vs. mood.
+      const VEIL_ALPHA = 0.5;
+      const veil = ctx.createRadialGradient(W / 2, H / 2, 0,
+                                            W / 2, H / 2, Math.max(W, H) * 0.62);
+      veil.addColorStop(0, `rgba(4, 5, 10, ${VEIL_ALPHA})`);
+      veil.addColorStop(1, 'rgba(4, 5, 10, 0)');
+      ctx.fillStyle = veil;
+      ctx.fillRect(0, 0, W, H);
+    } else {
+      const bg = ctx.createRadialGradient(W / 2, H / 2, Math.min(W, H) * 0.05,
+                                          W / 2, H / 2, Math.max(W, H) * 0.85);
+      bg.addColorStop(0, '#10131a');
+      bg.addColorStop(1, '#04050a');
+      ctx.fillStyle = bg;
+      ctx.fillRect(0, 0, W, H);
+      // Subtle starfield — deterministic PRNG seed so captures stay reproducible.
+      this._drawStars(ctx, W, H);
+    }
 
     // 3D axes (faint).
     this._drawAxes(ctx);
@@ -114,6 +133,16 @@ export class Renderer {
 
     // HUD: time, current state, divergence.
     this._drawHud(ctx);
+  }
+
+  /** Draw an image cover-fit: fill W×H, preserve aspect ratio, crop overflow. */
+  _drawCover(ctx, img, W, H) {
+    const ir = img.naturalWidth / img.naturalHeight;
+    const cr = W / H;
+    let dw, dh;
+    if (ir > cr) { dh = H; dw = H * ir; }
+    else { dw = W; dh = W / ir; }
+    ctx.drawImage(img, (W - dw) / 2, (H - dh) / 2, dw, dh);
   }
 
   _drawTrail(ctx, points, color, fade) {
