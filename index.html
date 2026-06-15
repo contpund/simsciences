@@ -793,6 +793,59 @@
           </a>
         </div>
       </article>
+
+      <article class="card">
+        <div class="card-header">
+          <h3>Galaxies from Gravity</h3>
+          <span class="badge">Episode 05</span>
+        </div>
+
+        <div class="tags">
+          <span class="tag">N-Body Problem</span>
+          <span class="tag">Gravitation</span>
+          <span class="tag">Galaxy Formation</span>
+        </div>
+
+        <p class="card-desc">
+          Hundreds of stars, one law — Newton's. No blueprint, no choreography. Let them pull on each other and a spiral galaxy assembles itself out of nothing.
+        </p>
+
+        <button class="read-more-toggle" type="button" aria-expanded="false" aria-controls="sci-nbody">
+          Read more <span class="chevron">▾</span>
+        </button>
+
+        <div class="scientific-text" id="sci-nbody">
+          <p><strong>The N-Body Problem — Newton, 1687</strong></p>
+          <p>
+            Newton gave us one line for gravity: every pair of masses attracts along the line between them, with a force F = G·m₁·m₂/r². For two bodies it solves cleanly — Kepler's ellipses. Add a third and the system becomes non-integrable: there is no general closed-form solution. For hundreds of bodies the only way forward is to compute every pairwise pull and step time forward, over and over.
+          </p>
+          <p>
+            That is exactly what this simulation does — a direct O(N²) sum each frame, integrated with a symplectic velocity-Verlet scheme so orbital energy stays honest. Nothing about a spiral is written into the rules. It emerges.
+          </p>
+          <ul>
+            <li><strong>Emergent</strong> — spiral arms are density waves the disk grows on its own from tiny irregularities</li>
+            <li><strong>Scale-free</strong> — the same law that drops an apple shapes a galaxy a hundred thousand light-years across</li>
+            <li><strong>Chaotic</strong> — like the three-body problem, long-term trajectories are unpredictable in detail</li>
+            <li><strong>Softened</strong> — a length ε smooths the 1/r² singularity so near-misses don't fling stars to infinity</li>
+          </ul>
+          <p>
+            Throw two of these disks at each other and they tear long tidal tails, then merge into one — the same process that built many of the galaxies we see today, including the collision the Milky Way and Andromeda are sliding into.
+          </p>
+          <p class="reference">
+            Newton, I. (1687). Philosophiæ Naturalis Principia Mathematica. London: Royal Society.
+          </p>
+        </div>
+
+        <div class="card-cta">
+          <a href="./nbody/" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+            Launch Simulation →
+          </a>
+          <a href="https://youtube.com/@simsciences" target="_blank" rel="noopener noreferrer" class="btn-yt" aria-label="Watch episode 05 on YouTube">
+            <i class="fa-brands fa-youtube yt-glyph"></i>
+            <span>Watch the explainer</span>
+          </a>
+        </div>
+      </article>
     </section>
 
     <section id="about">

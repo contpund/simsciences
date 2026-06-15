@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="16" fill="#0d0d0f"/>
+  <!-- Spiral galaxy: two logarithmic arms sweeping out from a warm core -->
+  <g fill="none" stroke-linecap="round">
+    <path d="M32 32 C40 26, 48 28, 50 38 C51 46, 44 52, 34 50"
+          stroke="#5fb0ff" stroke-width="2.4"/>
+    <path d="M32 32 C24 38, 16 36, 14 26 C13 18, 20 12, 30 14"
+          stroke="#5fb0ff" stroke-width="2.4"/>
+  </g>
+  <circle cx="32" cy="32" r="5.5" fill="#ffae45"/>
+  <circle cx="32" cy="32" r="2.4" fill="#fff"/>
+</svg>
