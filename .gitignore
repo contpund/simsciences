@@ -6,3 +6,7 @@
 
 # Local editing workspace (music masters, etc.)
 /edit/
+
+# Local secrets (OpenRouter API key, etc.) — never commit
+.env
+.env.*

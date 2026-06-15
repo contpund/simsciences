@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>La fente de Young — SimSciences</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="css/style.css" />
+  <script type="module" src="js/main.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <h1 data-i18n="appTitle">La fente de Young</h1>
+      <span class="subtitle" data-i18n="subtitle">L'expérience la plus étrange de la physique quantique</span>
+    </div>
+    <nav class="lang" aria-label="Language" data-i18n-tip="tip.lang">
+      <button data-lang="fr" lang="fr" title="Français">🇫🇷</button>
+      <button data-lang="en" lang="en" title="English">🇬🇧</button>
+    </nav>
+  </header>
+
+  <main class="layout">
+    <section class="stage">
+      <canvas id="sim" width="800" height="600"></canvas>
+      <div class="citation" data-i18n="citation">Young, T. (1804). The Bakerian Lecture: Experiments and calculations relative to physical optics.</div>
+    </section>
+
+    <aside class="sidebar">
+      <section class="panel">
+        <h2 data-i18n="sectionParams">Paramètres</h2>
+        <div class="ctrl">
+          <label for="slLambda"><span data-i18n="lambda">λ (longueur d'onde)</span><b id="valLambda">1.00</b></label>
+          <input type="range" id="slLambda" min="0.5" max="2" step="0.02" value="1" data-i18n-tip="tip.lambda" />
+        </div>
+        <div class="ctrl">
+          <label for="slD"><span data-i18n="slitSep">d (écart des fentes)</span><b id="valD">1.00</b></label>
+          <input type="range" id="slD" min="0.3" max="2.5" step="0.02" value="1" data-i18n-tip="tip.slitSep" />
+        </div>
+        <div class="ctrl">
+          <label for="slL"><span data-i18n="screenDist">L (distance à l'écran)</span><b id="valL">1.00</b></label>
+          <input type="range" id="slL" min="0.5" max="2.5" step="0.02" value="1" data-i18n-tip="tip.screenDist" />
+        </div>
+        <div class="ctrl">
+          <label for="slRate"><span data-i18n="rate">Débit de particules</span><b id="valRate">2.0×</b></label>
+          <input type="range" id="slRate" min="0.3" max="6" step="0.1" value="2" data-i18n-tip="tip.rate" />
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2 data-i18n="sectionOptions">Options</h2>
+        <label class="toggle observe" data-i18n-tip="tip.observe">
+          <input type="checkbox" id="tgObserve" />
+          <span data-i18n="observe">👁 Observer quelle fente</span>
+        </label>
+      </section>
+
+      <section class="panel">
+        <h2 data-i18n="sectionModes">Particule</h2>
+        <div class="presets">
+          <button id="btnPhoton" class="mode-btn" data-i18n="photon" data-i18n-tip="tip.photon">Photon</button>
+          <button id="btnElectron" class="mode-btn" data-i18n="electron" data-i18n-tip="tip.electron">Électron</button>
+          <button id="btnBall" class="mode-btn" data-i18n="ball" data-i18n-tip="tip.ball">Bille classique</button>
+          <button id="btnClear" data-i18n="clear" data-i18n-tip="tip.clear">Effacer l'écran</button>
+          <button id="btnReset" class="ghost" data-i18n="reset" data-i18n-tip="tip.reset">Réinitialiser</button>
+        </div>
+        <button id="btnPause" class="wide" data-i18n="start" data-i18n-tip="tip.pause">⏸ Pause</button>
+      </section>
+    </aside>
+  </main>
+</body>
+</html>
