@@ -899,6 +899,59 @@
           </a>
         </div>
       </article>
+
+      <article class="card">
+        <div class="card-header">
+          <h3>The Number That Ends an Epidemic</h3>
+          <span class="badge">Episode 07</span>
+        </div>
+
+        <div class="tags">
+          <span class="tag">Epidemiology</span>
+          <span class="tag">Herd Immunity</span>
+          <span class="tag">Differential Equations</span>
+        </div>
+
+        <p class="card-desc">
+          An epidemic never infects everyone — it stalls while most people are still healthy. Watch a crowd catch a disease, find the exact moment the outbreak turns, and vaccinate just enough people to stop it from ever starting.
+        </p>
+
+        <button class="read-more-toggle" type="button" aria-expanded="false" aria-controls="sci-sir">
+          Read more <span class="chevron">▾</span>
+        </button>
+
+        <div class="scientific-text" id="sci-sir">
+          <p><strong>The SIR model — Kermack &amp; McKendrick, 1927</strong></p>
+          <p>
+            Split a population into three groups: those who can still catch the disease (Susceptible), those who have it (Infected), and those who can no longer catch or spread it (Recovered). Two rates move people between the groups — β, how fast the infection jumps from person to person, and γ, how fast the sick recover. That is the entire model.
+          </p>
+          <p>
+            From those two numbers comes the most famous quantity in epidemiology: <strong>R₀ = β/γ</strong>, the number of people one case infects in a population where nobody is immune. Above 1, the epidemic grows. Below 1, it dies.
+          </p>
+          <ul>
+            <li><strong>The turning point</strong> — an outbreak peaks not when people get careful, but when so many have recovered that the effective reproduction number Rₑ = R₀·S/N falls through 1. The curve bends on its own</li>
+            <li><strong>Herd immunity</strong> — immunise a fraction 1 − 1/R₀ of the population and Rₑ starts below 1 on day one. The epidemic never takes off, and the unvaccinated are protected too</li>
+            <li><strong>Why measles is different</strong> — with R₀ ≈ 15, over 93% must be immune. With flu at R₀ ≈ 1.3, roughly a quarter suffices. The threshold is set by the pathogen, not by policy</li>
+            <li><strong>The crowd is not the equation</strong> — here the curves emerge from individuals meeting individuals, so they run slower and infect fewer than the classical equations predict: real contacts are never perfectly mixed</li>
+          </ul>
+          <p>
+            Kermack and McKendrick wrote these equations to explain why the plague of Bombay faded away long before it ran out of people. Their answer — that an epidemic dies of its own success, having burned through enough susceptibles — is why vaccination works at all.
+          </p>
+          <p class="reference">
+            Kermack, W. O. &amp; McKendrick, A. G. (1927). A Contribution to the Mathematical Theory of Epidemics. Proc. R. Soc. Lond. A, 115(772), 700–721.
+          </p>
+        </div>
+
+        <div class="card-cta">
+          <a href="./sir-epidemic/" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+            Launch Simulation →
+          </a>
+          <a href="https://youtube.com/@simsciences" target="_blank" rel="noopener noreferrer" class="btn-yt" aria-label="Watch episode 07 on YouTube">
+            <i class="fa-brands fa-youtube yt-glyph"></i>
+            <span>Watch the explainer</span>
+          </a>
+        </div>
+      </article>
     </section>
 
     <section id="about">
