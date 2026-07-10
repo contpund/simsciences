@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>L'allée de von Kármán — SimSciences</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="css/style.css" />
+  <script type="module" src="js/main.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <h1 data-i18n="appTitle">L'allée de von Kármán</h1>
+      <span class="subtitle" data-i18n="subtitle">Un seul nombre décide si un sillage se met à osciller</span>
+    </div>
+    <nav class="lang" aria-label="Language" data-i18n-tip="tip.lang">
+      <button data-lang="fr" lang="fr" title="Français">🇫🇷</button>
+      <button data-lang="en" lang="en" title="English">🇬🇧</button>
+    </nav>
+  </header>
+
+  <main class="layout">
+    <section class="stage">
+      <canvas id="sim" width="960" height="420"></canvas>
+      <div class="citation" data-i18n="citation">Frisch, U., Hasslacher, B. &amp; Pomeau, Y. (1986). Lattice-gas automata for the Navier–Stokes equation. Phys. Rev. Lett. 56, 1505.</div>
+    </section>
+
+    <aside class="sidebar">
+      <section class="panel">
+        <h2 data-i18n="sectionParams">Paramètres</h2>
+        <div class="ctrl">
+          <label for="slRe"><span data-i18n="reynolds">Re (nombre de Reynolds)</span><b id="valReSlider">120</b></label>
+          <input type="range" id="slRe" min="3" max="400" step="1" value="120" data-i18n-tip="tip.reynolds" />
+        </div>
+        <div class="ctrl">
+          <label for="slSteps"><span data-i18n="steps">Vitesse</span><b id="valSteps">8</b></label>
+          <input type="range" id="slSteps" min="1" max="16" step="1" value="8" data-i18n-tip="tip.steps" />
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2 data-i18n="sectionStats">Mesures</h2>
+        <div class="stat" data-i18n-tip="tip.statRe">
+          <span data-i18n="statRe">Re effectif</span><b id="valRe">120</b>
+        </div>
+        <div class="stat" data-i18n-tip="tip.statRegime">
+          <span data-i18n="statRegime">Régime</span><b id="valRegime">…</b>
+        </div>
+        <div class="stat" data-i18n-tip="tip.statSt">
+          <span data-i18n="statSt">Strouhal (St)</span><b id="valSt">—</b>
+        </div>
+        <div class="stat" data-i18n-tip="tip.statPeriod">
+          <span data-i18n="statPeriod">Période de lâcher</span><b id="valPeriod">—</b>
+        </div>
+        <div class="stat" data-i18n-tip="tip.statNu">
+          <span data-i18n="statNu">Viscosité ν</span><b id="valNu">0.0158</b>
+        </div>
+        <div class="stat" data-i18n-tip="tip.statD">
+          <span data-i18n="statD">Taille D de l'obstacle</span><b id="valD">19 cellules</b>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2 data-i18n="sectionShapes">Obstacles</h2>
+        <div class="presets">
+          <button id="btnCylinder" class="mode-btn" data-i18n="cylinder" data-i18n-tip="tip.cylinder">Cylindre</button>
+          <button id="btnPlate" class="mode-btn" data-i18n="plate" data-i18n-tip="tip.plate">Plaque</button>
+          <button id="btnWedge" class="mode-btn" data-i18n="wedge" data-i18n-tip="tip.wedge">Triangle</button>
+          <button id="btnAirfoil" class="mode-btn" data-i18n="airfoil" data-i18n-tip="tip.airfoil">Aile</button>
+        </div>
+        <h2 class="sub" data-i18n="sectionTools">Outils</h2>
+        <div class="presets">
+          <button id="btnDraw" class="tool-btn" data-i18n="drawTool" data-i18n-tip="tip.drawTool">✏️ Dessiner</button>
+          <button id="btnErase" class="tool-btn" data-i18n="eraseTool" data-i18n-tip="tip.eraseTool">🧽 Effacer</button>
+        </div>
+        <button id="btnClear" class="wide ghost" data-i18n="clearAll" data-i18n-tip="tip.clearAll">Tout effacer</button>
+      </section>
+
+      <section class="panel">
+        <h2 data-i18n="sectionField">Champ affiché</h2>
+        <div class="presets three">
+          <button id="btnVorticity" class="mode-btn" data-i18n="vorticity" data-i18n-tip="tip.vorticity">Vorticité</button>
+          <button id="btnSpeed" class="mode-btn" data-i18n="speed" data-i18n-tip="tip.speed">Vitesse</button>
+          <button id="btnPressure" class="mode-btn" data-i18n="pressure" data-i18n-tip="tip.pressure">Pression</button>
+        </div>
+        <label class="toggle" data-i18n-tip="tip.tracers">
+          <input type="checkbox" id="tgTracers" checked />
+          <span data-i18n="tracers">💨 Particules traçantes</span>
+        </label>
+        <div class="presets">
+          <button id="btnReset" class="ghost" data-i18n="reset" data-i18n-tip="tip.reset">Réinitialiser</button>
+          <button id="btnPause" data-i18n="start" data-i18n-tip="tip.pause">⏸ Pause</button>
+        </div>
+      </section>
+    </aside>
+  </main>
+</body>
+</html>

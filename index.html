@@ -1005,6 +1005,62 @@
           </a>
         </div>
       </article>
+
+      <article class="card">
+        <div class="card-header">
+          <h3>Why Wires Sing in the Wind</h3>
+          <span class="badge">Episode 09</span>
+        </div>
+
+        <div class="tags">
+          <span class="tag">Fluid Dynamics</span>
+          <span class="tag">Lattice Boltzmann</span>
+          <span class="tag">Vortex Shedding</span>
+        </div>
+
+        <p class="card-desc">
+          Nobody solved the Navier–Stokes equations here. Each cell of a 300×120 lattice holds nine numbers, relaxes them toward equilibrium, and passes them to its neighbours. Fluid dynamics is what happens next. Turn one knob and watch a still wake come alive.
+        </p>
+
+        <button class="read-more-toggle" type="button" aria-expanded="false" aria-controls="sci-fluid">
+          Read more <span class="chevron">▾</span>
+        </button>
+
+        <div class="scientific-text" id="sci-fluid">
+          <p><strong>The lattice-Boltzmann method — fluid mechanics as bookkeeping</strong></p>
+          <p>
+            Give every cell nine counters, one for each direction a fictitious particle might travel: still, north, south, east, west, and the four diagonals. Each step, relax the counters toward the equilibrium distribution set by the local density and velocity, then slide each counter one cell along its own direction. Collide, stream, repeat.
+          </p>
+          <p>
+            A Chapman–Enskog expansion proves that this bookkeeping reproduces the incompressible Navier–Stokes equations, with a kinematic viscosity ν = (1/ω − 1/2)/3 fixed by the relaxation rate alone. Nothing in the code knows what a vortex is.
+          </p>
+          <ul>
+            <li><strong>Re is the only knob</strong> — Re = U·D/ν weighs inertia against viscosity. Everything else is bookkeeping</li>
+            <li><strong>A sharp threshold</strong> — below Re ≈ 50 the wake stays attached: two vortices, stuck to the cylinder. Above it, the wake starts shedding them alternately, left and right. Measured here: at Re = 48 the oscillation dies away; at Re = 50 it settles onto a limit cycle</li>
+            <li><strong>A Hopf bifurcation</strong> — just past the threshold the oscillation amplitude grows like √(Re − Re_c). Measured: A² is linear in Re, and extrapolating A² → 0 puts the threshold at 50.1</li>
+            <li><strong>Strouhal, unbidden</strong> — the shedding frequency, made dimensionless as St = f·D/U, comes out at 0.20 near Re = 120. Experiment says ≈0.2 for a cylinder across five decades of Reynolds number. This code was never told</li>
+          </ul>
+          <p>
+            The textbook threshold for a cylinder in an unbounded stream is Re ≈ 47. Ours sits at 50 because the channel walls are close — a 16% blockage — exactly as they do in a real wind tunnel.
+          </p>
+          <p>
+            And the wire? Wind at 10 m/s past a 2 mm cable sheds vortices at f = St·U/D ≈ 1000 Hz. That is the note you hear. Vincenc Strouhal worked it out in 1878 by spinning wires on a frame and listening to them.
+          </p>
+          <p class="reference">
+            Frisch, U., Hasslacher, B. &amp; Pomeau, Y. (1986). Lattice-gas automata for the Navier–Stokes equation. Phys. Rev. Lett. 56, 1505. · Qian, Y. H., d'Humières, D. &amp; Lallemand, P. (1992). Lattice BGK models for Navier–Stokes equation. Europhys. Lett. 17, 479. · Williamson, C. H. K. (1996). Vortex dynamics in the cylinder wake. Annu. Rev. Fluid Mech. 28, 477. · Strouhal, V. (1878). Über eine besondere Art der Tonerregung. Ann. Phys. 241, 216.
+          </p>
+        </div>
+
+        <div class="card-cta">
+          <a href="./fluid/" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+            Launch Simulation →
+          </a>
+          <a href="https://youtube.com/@simsciences" target="_blank" rel="noopener noreferrer" class="btn-yt" aria-label="Watch episode 09 on YouTube">
+            <i class="fa-brands fa-youtube yt-glyph"></i>
+            <span>Watch the explainer</span>
+          </a>
+        </div>
+      </article>
     </section>
 
     <section id="about">
