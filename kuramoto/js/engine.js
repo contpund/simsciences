@@ -162,15 +162,18 @@ export class KuramotoEngine {
    *  thresholds are multiples of the finite-N floor, which is itself measured
    *  (see kuramoto page dry-run). */
   get state() {
-    const floor = this.incoherentFloor;
     const h = this.rHistory;
-    if (this.r < 2.2 * floor) return 'incoherent';
-    // Rising if the recent mean sits clearly above the mean two windows back.
-    // A wide window and a 0.03 margin ride over the frame-to-frame jitter of a
-    // finite population, so a plateaued crowd reads 'locked', not a flicker.
+    // Classify on a smoothed r, not the instantaneous one: a finite population's
+    // incoherent r fluctuates up to ~3× its mean, and a single spike must not
+    // read as synchrony. The incoherent ceiling scales with the floor, so it is
+    // right at any N.
+    const mean = (arr) => arr.reduce((a, b) => a + b, 0) / arr.length;
+    const sm = h.length ? mean(h.slice(-10)) : this.r;
+    const ceil = Math.max(0.10, 3.2 * this.incoherentFloor);
+    if (sm < ceil) return 'incoherent';
     if (h.length >= 20) {
-      const recent = h.slice(-10).reduce((a, b) => a + b, 0) / 10;
-      const before = h.slice(-20, -10).reduce((a, b) => a + b, 0) / 10;
+      const recent = mean(h.slice(-10));
+      const before = mean(h.slice(-20, -10));
       if (recent > before + 0.03) return 'synchronizing';
     }
     return 'locked';
