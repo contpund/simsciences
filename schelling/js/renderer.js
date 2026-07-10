@@ -177,7 +177,10 @@ export class Renderer {
     ctx.font = `600 ${big}px Inter, sans-serif`;
     // Amber once the neighbourhood has gone further than anyone asked it to.
     ctx.fillStyle = got > asked + 5 ? rgba(COL_B, 0.96) : rgba(COL_A, 0.96);
-    ctx.fillText(`${got.toFixed(0)} %`, cx, y);
+    // One decimal, matching the sidebar: 99.5% is not 100%, and on a channel
+    // that measures everything the hero number must not round a wall into a
+    // perfect split.
+    ctx.fillText(`${got.toFixed(1)} %`, cx, y);
 
     y += small * 2.0;
     ctx.font = `${small}px Inter, sans-serif`;
