@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="16" fill="#0d0d0f"/>
+  <!-- chained epicycles, largest to smallest -->
+  <circle cx="26" cy="32" r="14" fill="none" stroke="#5fb0ff" stroke-width="2" opacity="0.35"/>
+  <circle cx="38" cy="25" r="7" fill="none" stroke="#5fb0ff" stroke-width="2" opacity="0.55"/>
+  <!-- the radii, tip to tail -->
+  <path d="M26 32 L38 25 L44 29" fill="none" stroke="#5fb0ff" stroke-width="2" stroke-linecap="round"/>
+  <!-- the pen and the curve it traces -->
+  <path d="M44 29 C 50 38, 40 48, 30 46" fill="none" stroke="#ffae45" stroke-width="2.6" stroke-linecap="round"/>
+  <circle cx="44" cy="29" r="3.4" fill="#ffae45"/>
+</svg>

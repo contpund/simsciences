@@ -952,6 +952,59 @@
           </a>
         </div>
       </article>
+
+      <article class="card">
+        <div class="card-header">
+          <h3>Draw Anything. Circles Will Draw It Back.</h3>
+          <span class="badge">Episode 08</span>
+        </div>
+
+        <div class="tags">
+          <span class="tag">Fourier Series</span>
+          <span class="tag">Harmonic Analysis</span>
+          <span class="tag">Signal Processing</span>
+        </div>
+
+        <p class="card-desc">
+          Stack enough spinning circles, each turning at a whole-number rate, and the last one traces any closed curve you like. Draw your own shape and watch a chain of epicycles reproduce it — then take circles away and see exactly what breaks.
+        </p>
+
+        <button class="read-more-toggle" type="button" aria-expanded="false" aria-controls="sci-fourier">
+          Read more <span class="chevron">▾</span>
+        </button>
+
+        <div class="scientific-text" id="sci-fourier">
+          <p><strong>Fourier's series — 1822, and the backbone of every signal you have ever heard</strong></p>
+          <p>
+            Joseph Fourier was trying to describe how heat spreads through a metal bar. He claimed that any function, however jagged, could be written as a sum of pure sines and cosines. His contemporaries thought it was nonsense. Lagrange objected. It took a century to make rigorous — and it turned out to underpin audio, images, radio, MRI and quantum mechanics.
+          </p>
+          <p>
+            Read a closed curve as a complex function f(t), and its coefficients are c<sub>n</sub> = ∫ f(t)·e<sup>−2πint</sup> dt. Each c<sub>n</sub> is a vector of length |c<sub>n</sub>| turning n times per cycle. Chain them tip to tail, and the final tip draws the curve.
+          </p>
+          <ul>
+            <li><strong>n is a speed, not a place</strong> — harmonic n is simply the circle that completes n turns while the pen completes one lap</li>
+            <li><strong>Smoothness sets the price</strong> — a corner forces the coefficients to decay slowly (≈1/n² for a square); an analytic curve collapses much faster (≈1/n³ here), so a handful of circles already suffice</li>
+            <li><strong>Symmetry punches holes in the spectrum</strong> — a square has energy only at n ≡ 1 (mod 4): 1, 5, 9, −3, −7… so raising N from 1 to 2 changes literally nothing. A five-pointed star keeps only n ≡ 1 (mod 5)</li>
+            <li><strong>The error is exact, not estimated</strong> — Parseval's theorem says the energy you discard is precisely Σ<sub>|n|&gt;N</sub>|c<sub>n</sub>|², which is what the readout reports</li>
+          </ul>
+          <p>
+            This is the same decomposition that lets an MP3 throw away the harmonics you cannot hear, and that lets a radio pick one station out of the noise. Here you can throw them away yourself, one circle at a time, and watch what it costs.
+          </p>
+          <p class="reference">
+            Fourier, J.-B. J. (1822). Théorie analytique de la chaleur. Firmin Didot, Paris. · Parseval, M.-A. (1806). Mémoire sur les séries. · Körner, T. W. (1988). Fourier Analysis. Cambridge University Press.
+          </p>
+        </div>
+
+        <div class="card-cta">
+          <a href="./fourier/" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+            Launch Simulation →
+          </a>
+          <a href="https://youtube.com/@simsciences" target="_blank" rel="noopener noreferrer" class="btn-yt" aria-label="Watch episode 08 on YouTube">
+            <i class="fa-brands fa-youtube yt-glyph"></i>
+            <span>Watch the explainer</span>
+          </a>
+        </div>
+      </article>
     </section>
 
     <section id="about">

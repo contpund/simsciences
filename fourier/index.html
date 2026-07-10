@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>La série de Fourier — SimSciences</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="css/style.css" />
+  <script type="module" src="js/main.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <h1 data-i18n="appTitle">La série de Fourier</h1>
+      <span class="subtitle" data-i18n="subtitle">Dessinez n'importe quoi — des cercles le redessineront</span>
+    </div>
+    <nav class="lang" aria-label="Language" data-i18n-tip="tip.lang">
+      <button data-lang="fr" lang="fr" title="Français">🇫🇷</button>
+      <button data-lang="en" lang="en" title="English">🇬🇧</button>
+    </nav>
+  </header>
+
+  <main class="layout">
+    <section class="stage">
+      <canvas id="sim" width="900" height="600"></canvas>
+      <div class="citation" data-i18n="citation">Fourier, J.-B. J. (1822). Théorie analytique de la chaleur. Firmin Didot, Paris.</div>
+    </section>
+
+    <aside class="sidebar">
+      <section class="panel">
+        <h2 data-i18n="sectionParams">Paramètres</h2>
+        <div class="ctrl">
+          <label for="slN"><span data-i18n="harmonics">N (harmoniques)</span><b id="valN">40</b></label>
+          <input type="range" id="slN" min="1" max="200" step="1" value="40" data-i18n-tip="tip.harmonics" />
+        </div>
+        <div class="ctrl">
+          <label for="slSpeed"><span data-i18n="speed">Vitesse</span><b id="valSpeed">1.00×</b></label>
+          <input type="range" id="slSpeed" min="0.1" max="3" step="0.05" value="1" data-i18n-tip="tip.speed" />
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2 data-i18n="sectionStats">Mesures</h2>
+        <div class="stat" data-i18n-tip="tip.statCircles">
+          <span data-i18n="statCircles">Cercles utilisés</span><b id="valCircles">81</b>
+        </div>
+        <div class="stat" data-i18n-tip="tip.statError">
+          <span data-i18n="statError">Erreur de reconstruction</span><b id="valError" class="good">0.00 %</b>
+        </div>
+        <div class="stat" data-i18n-tip="tip.statDominant">
+          <span data-i18n="statDominant">Harmonique dominante</span><b id="valDominant">n = +1</b>
+        </div>
+        <div class="stat" data-i18n-tip="tip.statPoints">
+          <span data-i18n="statPoints">Points échantillonnés</span><b id="valPoints">512</b>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2 data-i18n="sectionPresets">Formes</h2>
+        <div class="presets">
+          <button id="btnSquare" class="mode-btn" data-i18n="square" data-i18n-tip="tip.square">Carré</button>
+          <button id="btnStar" class="mode-btn" data-i18n="star" data-i18n-tip="tip.star">Étoile</button>
+          <button id="btnHeart" class="mode-btn" data-i18n="heart" data-i18n-tip="tip.heart">Cœur</button>
+          <button id="btnInfinity" class="mode-btn" data-i18n="infinity" data-i18n-tip="tip.infinity">Lemniscate</button>
+        </div>
+        <button id="btnDraw" class="wide draw" data-i18n="draw" data-i18n-tip="tip.draw">✏️ À vous de dessiner</button>
+      </section>
+
+      <section class="panel">
+        <h2 data-i18n="sectionOptions">Affichage</h2>
+        <label class="toggle" data-i18n-tip="tip.showCircles">
+          <input type="checkbox" id="tgCircles" checked />
+          <span data-i18n="showCircles">⭕ Montrer les cercles</span>
+        </label>
+        <label class="toggle" data-i18n-tip="tip.showOriginal">
+          <input type="checkbox" id="tgOriginal" checked />
+          <span data-i18n="showOriginal">👻 Montrer le tracé d'origine</span>
+        </label>
+        <div class="presets">
+          <button id="btnReset" class="ghost" data-i18n="reset" data-i18n-tip="tip.reset">Réinitialiser</button>
+          <button id="btnPause" data-i18n="start" data-i18n-tip="tip.pause">⏸ Pause</button>
+        </div>
+      </section>
+    </aside>
+  </main>
+</body>
+</html>
