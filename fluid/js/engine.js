@@ -354,9 +354,15 @@ export class FluidEngine {
 
   get isShedding() { return this._shedding; }
 
-  /** Shedding period in lattice steps, or null while the wake is steady. */
+  /** Shedding period in lattice steps, or null while the wake is steady.
+   *
+   *  setRe() clears the period history but deliberately keeps the latched
+   *  `_shedding` flag, so there is a window where the wake is shedding and we
+   *  have not timed it yet. Averaging an empty array gives NaN, which then
+   *  made `strouhal` return null while `isShedding` was still true — and the
+   *  HUD called .toFixed() on it and killed the animation loop. Say null. */
   get period() {
-    if (!this.isShedding) return null;
+    if (!this.isShedding || this._periods.length === 0) return null;
     return this._periods.reduce((a, b) => a + b, 0) / this._periods.length;
   }
 

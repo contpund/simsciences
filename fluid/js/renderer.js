@@ -258,10 +258,12 @@ export class Renderer {
     ctx.fillStyle = col;
     ctx.fillText(t('regime.' + r), f.x + 12, f.y + 38);
 
-    if (e.isShedding) {
+    // Shedding, but not yet timed: St is genuinely unknown for a moment.
+    const st = e.strouhal;
+    if (e.isShedding && st != null) {
       ctx.font = '11.5px Inter, sans-serif';
       ctx.fillStyle = 'rgba(255,255,255,0.45)';
-      ctx.fillText(`St = ${e.strouhal.toFixed(3)}`, f.x + 12, f.y + 54);
+      ctx.fillText(`St = ${st.toFixed(3)}`, f.x + 12, f.y + 54);
     }
 
     if (e.unstable) {
