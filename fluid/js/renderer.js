@@ -16,8 +16,14 @@ import { t } from './i18n.js';
 const COL_BAR = [42, 47, 62];        // the obstacle
 const COL_PROBE = [255, 255, 255];
 
-const VORT_SCALE = 0.09;   // |curl| that saturates the colour ramp
-const PRESS_SCALE = 0.012; // |ρ−1| that saturates
+// Measured on the shipped cylinder at Re = 120:
+//   |u|   spans 0.000 … 0.147, free stream 0.0986
+//   ρ − 1 spans −0.0268 … +0.021
+// The old scales (1.7·U0 and 0.012) put the free stream at 58% of the speed
+// ramp — a blinding pale-blue field — and clipped the pressure at twice over.
+const VORT_SCALE = 0.09;    // |curl| that saturates the colour ramp
+const PRESS_SCALE = 0.030;  // |ρ−1| that saturates
+const SPEED_SCALE = 0.150;  // |u| that saturates (1.5·U0)
 
 function roundRectPath(ctx, x, y, w, h, r) {
   if (ctx.roundRect) { ctx.beginPath(); ctx.roundRect(x, y, w, h, r); return; }
@@ -47,17 +53,23 @@ function buildDiverging(cool, warm) {
   return lut;
 }
 
-/** Sequential ramp: near-black → accent → white. */
-function buildSequential(mid) {
+/** Sequential ramp: near-black → accent → white.
+ *
+ *  Most of a channel flow sits at the free-stream speed, so a linear ramp
+ *  paints almost the whole frame at its brightest colour and the picture
+ *  disappears. The gamma pushes the free stream (0.66 of full scale) down to
+ *  a dark blue and reserves the bright end for the accelerated flow around
+ *  the shoulders — which is the part worth looking at. */
+function buildSequential(mid, gamma = 2.4, knee = 0.75) {
   const N = 512, lut = new Uint8Array(N * 3);
   for (let i = 0; i < N; i++) {
-    const u = i / (N - 1);
+    const u = Math.pow(i / (N - 1), gamma);
     let r, g, b;
-    if (u < 0.65) {
-      const k = u / 0.65;
+    if (u < knee) {
+      const k = u / knee;
       r = 8 + (mid[0] - 8) * k; g = 10 + (mid[1] - 10) * k; b = 16 + (mid[2] - 16) * k;
     } else {
-      const k = (u - 0.65) / 0.35;
+      const k = (u - knee) / (1 - knee);
       r = mid[0] + (255 - mid[0]) * k; g = mid[1] + (255 - mid[1]) * k; b = mid[2] + (255 - mid[2]) * k;
     }
     lut[i * 3 + 0] = r; lut[i * 3 + 1] = g; lut[i * 3 + 2] = b;
@@ -181,7 +193,7 @@ export class Renderer {
         const i = sx + sy * w;
         let u;
         if (this.mode === 'speed') {
-          u = Math.min(1, Math.hypot(e.ux[i], e.uy[i]) / (1.7 * U0));
+          u = Math.min(1, Math.hypot(e.ux[i], e.uy[i]) / SPEED_SCALE);
           const k = (u * 511) | 0;
           d[o] = lut[k * 3]; d[o + 1] = lut[k * 3 + 1]; d[o + 2] = lut[k * 3 + 2];
           continue;
