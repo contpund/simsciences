@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>La ségrégation de Schelling — SimSciences</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="css/style.css" />
+  <script type="module" src="js/main.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <h1 data-i18n="appTitle">La ségrégation de Schelling</h1>
+      <span class="subtitle" data-i18n="subtitle">Personne ne veut de ghetto. Tout le monde en fabrique un.</span>
+    </div>
+    <nav class="lang" aria-label="Language" data-i18n-tip="tip.lang">
+      <button data-lang="fr" lang="fr" title="Français">🇫🇷</button>
+      <button data-lang="en" lang="en" title="English">🇬🇧</button>
+    </nav>
+  </header>
+
+  <main class="layout">
+    <section class="stage">
+      <canvas id="sim" width="900" height="600"></canvas>
+      <div class="citation" data-i18n="citation">Schelling, T. C. (1971). Dynamic models of segregation. Journal of Mathematical Sociology 1(2), 143–186.</div>
+    </section>
+
+    <aside class="sidebar">
+      <section class="panel">
+        <h2 data-i18n="sectionParams">Paramètres</h2>
+        <div class="ctrl">
+          <label for="slTau"><span data-i18n="tolerance">τ — voisins semblables voulus</span><b id="valTau">30 %</b></label>
+          <input type="range" id="slTau" min="0" max="1" step="0.01" value="0.30" data-i18n-tip="tip.tolerance" />
+        </div>
+        <div class="ctrl">
+          <label for="slEmpty"><span data-i18n="empty">Logements vides</span><b id="valEmpty">10 %</b></label>
+          <input type="range" id="slEmpty" min="0.02" max="0.40" step="0.01" value="0.10" data-i18n-tip="tip.empty" />
+        </div>
+        <div class="ctrl">
+          <label for="slSize"><span data-i18n="size">Taille du quartier</span><b id="valSize">60 × 60</b></label>
+          <input type="range" id="slSize" min="20" max="120" step="5" value="60" data-i18n-tip="tip.size" />
+        </div>
+        <div class="ctrl">
+          <label for="slSpeed"><span data-i18n="speed">Vitesse</span><b id="valSpeed">240</b></label>
+          <input type="range" id="slSpeed" min="20" max="1200" step="20" value="240" data-i18n-tip="tip.speed" />
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2 data-i18n="sectionStats">Mesures</h2>
+        <div class="stat" data-i18n-tip="tip.statAsked">
+          <span data-i18n="statAsked">Demandé (τ)</span><b id="valAsked">30 %</b>
+        </div>
+        <div class="stat" data-i18n-tip="tip.statGot">
+          <span data-i18n="statGot">Obtenu (S)</span><b id="valGot">50.1 %</b>
+        </div>
+        <div class="stat" data-i18n-tip="tip.statRandom">
+          <span data-i18n="statRandom">Au hasard</span><b id="valRandom">50 %</b>
+        </div>
+        <div class="stat" data-i18n-tip="tip.statUnhappy">
+          <span data-i18n="statUnhappy">Mécontents</span><b id="valUnhappy">17.4 %</b>
+        </div>
+        <div class="stat" data-i18n-tip="tip.statChurn">
+          <span data-i18n="statChurn">Déménagements / tour</span><b id="valChurn">—</b>
+        </div>
+        <div class="stat" data-i18n-tip="tip.statRounds">
+          <span data-i18n="statRounds">Tours</span><b id="valRounds">0</b>
+        </div>
+        <div class="stat" data-i18n-tip="tip.statState">
+          <span data-i18n="statState">État</span><b id="valState">mélange initial</b>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2 data-i18n="sectionPresets">Expériences</h2>
+        <div class="presets">
+          <button id="btnMild" class="mode-btn" data-i18n="mild" data-i18n-tip="tip.mild">À peine 30 %</button>
+          <button id="btnHalf" class="mode-btn" data-i18n="half" data-i18n-tip="tip.half">Une moitié</button>
+          <button id="btnLast" class="mode-btn" data-i18n="last" data-i18n-tip="tip.last">75 % — la limite</button>
+          <button id="btnNever" class="mode-btn" data-i18n="never" data-i18n-tip="tip.never">80 % — sans fin</button>
+        </div>
+        <button id="btnShuffle" class="wide shuffle" data-i18n="shuffle" data-i18n-tip="tip.shuffle">🎲 Remélanger</button>
+        <div class="presets">
+          <button id="btnReset" class="ghost" data-i18n="reset" data-i18n-tip="tip.reset">Réinitialiser</button>
+          <button id="btnPause" data-i18n="start" data-i18n-tip="tip.pause">⏸ Pause</button>
+        </div>
+      </section>
+    </aside>
+  </main>
+</body>
+</html>

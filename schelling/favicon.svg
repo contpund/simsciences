@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="16" fill="#0d0d0f"/>
+  <!-- left: a random mix -->
+  <g>
+    <rect x="10" y="14" width="7" height="7" rx="1" fill="#5fb0ff"/>
+    <rect x="19" y="14" width="7" height="7" rx="1" fill="#ffae45"/>
+    <rect x="10" y="23" width="7" height="7" rx="1" fill="#ffae45"/>
+    <rect x="19" y="23" width="7" height="7" rx="1" fill="#5fb0ff"/>
+    <rect x="10" y="32" width="7" height="7" rx="1" fill="#5fb0ff"/>
+    <rect x="19" y="41" width="7" height="7" rx="1" fill="#ffae45"/>
+    <rect x="10" y="41" width="7" height="7" rx="1" fill="#5fb0ff"/>
+    <rect x="19" y="32" width="7" height="7" rx="1" fill="#ffae45"/>
+  </g>
+  <!-- right: the same people, sorted -->
+  <g>
+    <rect x="38" y="14" width="7" height="7" rx="1" fill="#5fb0ff"/>
+    <rect x="47" y="14" width="7" height="7" rx="1" fill="#5fb0ff"/>
+    <rect x="38" y="23" width="7" height="7" rx="1" fill="#5fb0ff"/>
+    <rect x="47" y="23" width="7" height="7" rx="1" fill="#5fb0ff"/>
+    <rect x="38" y="32" width="7" height="7" rx="1" fill="#ffae45"/>
+    <rect x="47" y="32" width="7" height="7" rx="1" fill="#ffae45"/>
+    <rect x="38" y="41" width="7" height="7" rx="1" fill="#ffae45"/>
+    <rect x="47" y="41" width="7" height="7" rx="1" fill="#ffae45"/>
+  </g>
+</svg>

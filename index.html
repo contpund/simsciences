@@ -1061,6 +1061,59 @@
           </a>
         </div>
       </article>
+
+      <article class="card">
+        <div class="card-header">
+          <h3>Nobody Wants a Ghetto. Everybody Builds One.</h3>
+          <span class="badge">Episode 10</span>
+        </div>
+
+        <div class="tags">
+          <span class="tag">Social Science</span>
+          <span class="tag">Agent-Based Model</span>
+          <span class="tag">Emergence</span>
+        </div>
+
+        <p class="card-desc">
+          Give every household the mildest of preferences — I would like three of my ten neighbours to be like me — and let anyone who falls short move house. Nobody is a bigot. Nobody coordinates. Ask for 30% and the neighbourhood hands back 75%.
+        </p>
+
+        <button class="read-more-toggle" type="button" aria-expanded="false" aria-controls="sci-schelling">
+          Read more <span class="chevron">▾</span>
+        </button>
+
+        <div class="scientific-text" id="sci-schelling">
+          <p><strong>Schelling's segregation model — the gap between what we want and what we get</strong></p>
+          <p>
+            Two groups of equal size are scattered at random across a grid, with a tenth of the homes left empty. Every agent looks at its eight neighbours and asks a single question: is the share of neighbours like me at least τ? If yes, it stays. If no, it moves to a vacant home chosen at random. That is the entire rule. Nobody chooses a destination because of who lives there — the unhappy simply leave.
+          </p>
+          <p>
+            Thomas Schelling wrote it in 1971 with coins on a chessboard, and it earned him a share of the 2005 Nobel Prize in economics. The point is not that people are prejudiced. The point is that a preference far too weak to be called prejudice still produces a segregated city.
+          </p>
+          <ul>
+            <li><strong>Ask for 30%, get 75%</strong> — measured here: a random mix scores S = 50.1%. Set τ = 0.30 and the grid settles, after 11 rounds, at S = 75.5%. Only 17.4% of agents were unhappy to begin with; that minority is enough to sort everybody</li>
+            <li><strong>Micromotives are not macrobehaviour</strong> — no agent ever wanted a neighbourhood 75% like itself. Every one of them would have been content with 30%. The 45-point gap is manufactured entirely by the rule, by nobody's intention</li>
+            <li><strong>A staircase, not a slope</strong> — an agent counts its like neighbours against however many neighbours it actually has, which is at most eight and fewer at an edge or beside an empty home. The like-fraction is a ratio of small whole numbers, so only certain values exist. τ = 0.34 and τ = 0.37 are therefore the very same demand, and settle identically: S = 78.8%, in exactly 10 rounds. Nudge τ to 0.38, just past 3/8, and the outcome jumps to S = 83.9%</li>
+            <li><strong>Six of eight is the last demand that works</strong> — τ = 0.75 still settles, at S = 99.5%, after 61 rounds. τ = 0.76 asks for seven of eight: run it 2000 rounds and 91.5% of the neighbourhood is still relocating every single round, segregation stalled at 57.1%. Worse sorting than τ = 0.30 delivered, with 81.5% of agents unhappy on top. Demanding more returns less</li>
+            <li><strong>Vacancy rescues the intolerant</strong> — that same τ = 0.80 grid does settle, at S = 99.9% and round 77, once 20% of the homes stand empty. Room to move is what makes an extreme demand satisfiable. Too little room jams everything instead: τ = 0.60 with 2% vacancy is still shuffling after 2000 rounds, though only 1.5% of agents relocate per round</li>
+          </ul>
+          <p>
+            The simulation will not tell you whether a given neighbourhood settles eventually. It cannot: at τ = 0.71 with 5% vacancy the moves per round plateau, tick upward, and only then collapse — the grid falls still at round 429. So the page reports what it sees, never what it foresees. "Settled" means nobody moved. "Still moving" means they were still moving when we last looked.
+          </p>
+          <p>
+            The uncomfortable corollary runs the other way too. If a segregated city is the aggregate of harmless individual preferences, then no individual can be blamed for it — and no individual, acting alone, can undo it.
+          </p>
+          <p class="reference">
+            Schelling, T. C. (1971). Dynamic models of segregation. Journal of Mathematical Sociology 1(2), 143–186. · Schelling, T. C. (1978). Micromotives and Macrobehavior. Norton. · Sveriges Riksbank Prize in Economic Sciences in Memory of Alfred Nobel (2005), awarded jointly to Robert Aumann and Thomas Schelling.
+          </p>
+        </div>
+
+        <div class="card-cta">
+          <a href="./schelling/" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+            Launch Simulation →
+          </a>
+        </div>
+      </article>
     </section>
 
     <section id="about">
