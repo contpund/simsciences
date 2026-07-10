@@ -30,6 +30,27 @@ function makeHaloSprite(col, size = 64) {
   return c;
 }
 
+/** Trace one series through the history, drawing at most ~1400 points. The
+ *  history holds 20 samples per simulated day, far more than the chart is
+ *  wide, so a stride costs nothing visually and a lot of lineTo calls. */
+function tracePath(ctx, samples, key, X, Y) {
+  const len = samples.length;
+  if (len === 0) return;
+  const stride = Math.max(1, Math.ceil(len / 1400));
+  let k = 0;
+  for (; k < len; k += stride) {
+    const p = samples[k];
+    const x = X(p.t), y = Y(p[key]);
+    if (k === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+  }
+  // The stride usually overshoots the final sample; the curve must still reach
+  // the present moment or it visibly lags the crowd.
+  if (k - stride !== len - 1) {
+    const p = samples[len - 1];
+    ctx.lineTo(X(p.t), Y(p[key]));
+  }
+}
+
 function roundRectPath(ctx, x, y, w, h, r) {
   if (ctx.roundRect) { ctx.beginPath(); ctx.roundRect(x, y, w, h, r); return; }
   ctx.beginPath();
@@ -238,11 +259,7 @@ export class Renderer {
       ctx.lineWidth = 1.2;
       for (const [key, col] of [['S', COL_S], ['I', COL_I], ['R', COL_R]]) {
         ctx.beginPath();
-        for (let k = 0; k < e.odeHistory.length; k++) {
-          const p = e.odeHistory[k];
-          const xx = X(p.t), yy = Y(p[key]);
-          if (k === 0) ctx.moveTo(xx, yy); else ctx.lineTo(xx, yy);
-        }
+        tracePath(ctx, e.odeHistory, key, X, Y);
         ctx.strokeStyle = rgba(col, 0.30);
         ctx.stroke();
       }
@@ -252,11 +269,7 @@ export class Renderer {
     // Measured curves, with a soft fill under the infected one.
     ctx.save();
     ctx.beginPath();
-    for (let k = 0; k < e.history.length; k++) {
-      const p = e.history[k];
-      const xx = X(p.t), yy = Y(p.I);
-      if (k === 0) ctx.moveTo(xx, yy); else ctx.lineTo(xx, yy);
-    }
+    tracePath(ctx, e.history, 'I', X, Y);
     ctx.lineTo(X(e.history[e.history.length - 1].t), Y(0));
     ctx.lineTo(X(e.history[0].t), Y(0));
     ctx.closePath();
@@ -268,11 +281,7 @@ export class Renderer {
     ctx.lineJoin = 'round';
     for (const [key, col] of [['S', COL_S], ['R', COL_R], ['I', COL_I]]) {
       ctx.beginPath();
-      for (let k = 0; k < e.history.length; k++) {
-        const p = e.history[k];
-        const xx = X(p.t), yy = Y(p[key]);
-        if (k === 0) ctx.moveTo(xx, yy); else ctx.lineTo(xx, yy);
-      }
+      tracePath(ctx, e.history, key, X, Y);
       ctx.strokeStyle = rgba(col, 0.95);
       ctx.stroke();
     }

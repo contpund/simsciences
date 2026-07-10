@@ -37,11 +37,18 @@ const DEFAULTS = Object.freeze({
   speed: 1.0,    // time multiplier
 });
 
-const DT = 0.05;          // days per step
-const RADIUS = 0.028;     // infection radius, in normalised domain units
+// The physics step is FIXED. `speed` buys more substeps per frame, never a
+// coarser one: infection and recovery probabilities are only first-order
+// accurate in dt, so a bigger dt would quietly change the epidemic itself
+// (measured: peak 99 → 174 infected across the speed range). Holding dt fixed
+// makes the outbreak bit-identical at every speed, which the capture pipeline
+// also relies on.
+const DT = 0.05;           // days per substep — never scaled
+const MAX_SUBSTEPS = 64;   // backstop so one frame cannot run away
+const RADIUS = 0.028;      // infection radius, in normalised domain units
 const SPEED_AGENT = 0.055; // agent walking speed, domain units per day
-const I0 = 3;             // index cases
-const MAX_SAMPLES = 4000; // history cap (≈200 simulated days)
+const I0 = 3;              // index cases
+const MAX_SAMPLES = 6000;  // history cap (300 simulated days at 20 samples/day)
 
 function makeRng(seed) {
   let s = seed >>> 0;
@@ -90,6 +97,7 @@ export class SIREngine {
 
     this.rng = makeRng(0x5152b17e);
     this.time = 0;
+    this._acc = 0;
     this.everInfected = 0;
     this.peakI = 0;
     this.peakTime = 0;
@@ -207,10 +215,19 @@ export class SIREngine {
 
   // ── One simulation step ──────────────────────────────────────────────────
 
+  /** Advance one frame's worth of simulated time. `speed` decides how many
+   *  fixed-size substeps that is — it never stretches the substep itself. */
   step() {
     if (this.paused || this.finished) return;
+    this._acc += DT * this.speed;
+    let budget = MAX_SUBSTEPS;
+    while (this._acc >= DT - 1e-12 && budget-- > 0 && !this.finished) {
+      this._substep(DT);
+      this._acc -= DT;
+    }
+  }
 
-    const dt = DT * this.speed;
+  _substep(dt) {
     const n = this.N;
 
     // 1. Move everyone, bouncing off the walls of the domain.
