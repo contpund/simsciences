@@ -6,8 +6,7 @@
 
 import { t } from './i18n.js';
 
-const DEFAULTS = { Re: 120, steps: 8 };
-const BRUSH = 3;
+const DEFAULTS = { Re: 120, steps: 8, brush: 3 };
 
 function setSliderFill(input) {
   const pct = ((+input.value - +input.min) / (+input.max - +input.min)) * 100;
@@ -27,9 +26,15 @@ function bindSlider(input, valueEl, formatter, onInput) {
 export function initControls(engine, renderer) {
   const $ = (id) => document.getElementById(id);
 
-  // ── Readouts (declared first: bindSlider fires its handler on setup) ──────
+  // ── Declared first: bindSlider fires its handler during setup, and that
+  //    handler calls syncStats(), which reads all of these. ──────────────────
   const outRe = $('valRe'), outRegime = $('valRegime'), outSt = $('valSt');
   const outPeriod = $('valPeriod'), outNu = $('valNu'), outD = $('valD');
+  const outBrush = $('valBrush');
+  let brush = DEFAULTS.brush;
+
+  /** The stamp is always an odd number of cells across, so only 1 is singular. */
+  const cells = (n) => `${n} ${t(n === 1 ? 'unit.cell' : 'unit.cells')}`;
 
   function syncStats() {
     outRe.textContent = engine.D ? String(Math.round(engine.effectiveRe)) : '—';
@@ -45,13 +50,20 @@ export function initControls(engine, renderer) {
     const T = engine.period;
     outPeriod.textContent = T ? `${Math.round(T)} ${t('unit.steps')}` : '—';
     outNu.textContent = engine.D ? engine.nu.toFixed(4) : '—';
-    outD.textContent = engine.D ? `${engine.D} ${t('unit.cells')}` : '—';
+    outD.textContent = engine.D ? cells(engine.D) : '—';
+    // Re-rendered here too, so switching language relabels it without a drag.
+    outBrush.textContent = cells(2 * brush + 1);
   }
 
   bindSlider($('slRe'), $('valReSlider'), (v) => String(Math.round(v)),
     (v) => { engine.setRe(v); syncStats(); });
   bindSlider($('slSteps'), $('valSteps'), (v) => String(Math.round(v)),
     (v) => engine.setStepsPerFrame(v));
+
+  // Brush radius in cells; the readout gives the diameter, which is what the
+  // stamp actually covers.
+  bindSlider($('slBrush'), outBrush, (v) => cells(2 * Math.round(v) + 1),
+    (v) => { brush = Math.round(v); renderer.setBrush(brush); });
 
   const tgTracers = $('tgTracers');
   tgTracers.addEventListener('change', () => engine.setShowTracers(tgTracers.checked));
@@ -87,6 +99,7 @@ export function initControls(engine, renderer) {
   const btnDraw = $('btnDraw'), btnErase = $('btnErase');
   function setTool(er) {
     erasing = er;
+    renderer.setTool(er);
     btnDraw.classList.toggle('active', !er);
     btnErase.classList.toggle('active', er);
   }
@@ -112,7 +125,7 @@ export function initControls(engine, renderer) {
     const { px, py } = canvasPoint(ev);
     if (!renderer.hitField(px, py)) return;
     const g = renderer.toGrid(px, py);
-    engine.paint(g.x, g.y, BRUSH, erasing);
+    engine.paint(g.x, g.y, brush, erasing);
     markShape(null);
   }
 
@@ -124,7 +137,11 @@ export function initControls(engine, renderer) {
     painting = true;
     paintAt(ev);
   });
-  canvas.addEventListener('pointermove', (ev) => { if (painting) { ev.preventDefault(); paintAt(ev); } });
+  canvas.addEventListener('pointermove', (ev) => {
+    const { px, py } = canvasPoint(ev);
+    renderer.setHover(renderer.hitField(px, py) ? px : null, py);
+    if (painting) { ev.preventDefault(); paintAt(ev); }
+  });
   const stop = (ev) => {
     if (!painting) return;
     canvas.releasePointerCapture?.(ev.pointerId);
@@ -133,13 +150,14 @@ export function initControls(engine, renderer) {
   };
   canvas.addEventListener('pointerup', stop);
   canvas.addEventListener('pointercancel', stop);
-  canvas.addEventListener('pointerleave', stop);
+  canvas.addEventListener('pointerleave', (ev) => { renderer.setHover(null); stop(ev); });
 
   // ── Global ───────────────────────────────────────────────────────────────
   $('btnReset').addEventListener('click', () => {
     $('slRe').value = DEFAULTS.Re;
     $('slSteps').value = DEFAULTS.steps;
-    for (const id of ['slRe', 'slSteps']) $(id).dispatchEvent(new Event('input'));
+    $('slBrush').value = DEFAULTS.brush;
+    for (const id of ['slRe', 'slSteps', 'slBrush']) $(id).dispatchEvent(new Event('input'));
     tgTracers.checked = true;
     engine.setShowTracers(true);
     engine.preset('cylinder');

@@ -74,6 +74,10 @@
           <button id="btnDraw" class="tool-btn" data-i18n="drawTool" data-i18n-tip="tip.drawTool">✏️ Dessiner</button>
           <button id="btnErase" class="tool-btn" data-i18n="eraseTool" data-i18n-tip="tip.eraseTool">🧽 Effacer</button>
         </div>
+        <div class="ctrl brush">
+          <label for="slBrush"><span data-i18n="brush">Épaisseur du trait</span><b id="valBrush">7 cellules</b></label>
+          <input type="range" id="slBrush" min="0" max="12" step="1" value="3" data-i18n-tip="tip.brush" />
+        </div>
         <button id="btnClear" class="wide ghost" data-i18n="clearAll" data-i18n-tip="tip.clearAll">Tout effacer</button>
       </section>
 

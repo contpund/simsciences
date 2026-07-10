@@ -310,6 +310,10 @@ button {
   box-shadow: 0 0 10px rgba(255, 174, 69, 0.25);
 }
 
+/* The brush slider sits between the tool buttons and Clear all. */
+.ctrl.brush { margin: 12px 0 12px; }
+.ctrl.brush label b { color: var(--accent-warm); }
+
 /* A third column for the field selector. */
 .presets.three { grid-template-columns: 1fr 1fr 1fr; }
 .presets.three button { padding: 9px 4px; font-size: 12px; }

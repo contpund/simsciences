@@ -76,6 +76,11 @@ export class Renderer {
     this.engine = engine;
     this.mode = 'vorticity';
 
+    // Brush preview: you cannot choose a thickness you cannot see.
+    this.brush = 3;
+    this.erasing = false;
+    this.hover = null;
+
     this.off = document.createElement('canvas');
     this.off.width = engine.w;
     this.off.height = engine.h;
@@ -87,6 +92,10 @@ export class Renderer {
   }
 
   setMode(m) { this.mode = m; }
+  setBrush(r) { this.brush = Math.max(0, r | 0); }
+  setTool(erasing) { this.erasing = !!erasing; }
+  /** Canvas coords of the pointer over the field, or null when it is away. */
+  setHover(px, py) { this.hover = (px == null) ? null : { px, py }; }
 
   resize() {
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -136,6 +145,7 @@ export class Renderer {
     ctx.drawImage(this.off, f.x, f.y, f.w, f.h);
     if (this.engine.showTracers) this._drawTracers(ctx, f);
     this._drawProbe(ctx, f);
+    this._drawBrush(ctx, f);
     ctx.restore();
 
     ctx.strokeStyle = 'rgba(255,255,255,0.08)';
@@ -213,6 +223,21 @@ export class Renderer {
     ctx.beginPath();
     ctx.moveTo(px - 9, py); ctx.lineTo(px - 6, py);
     ctx.moveTo(px + 6, py); ctx.lineTo(px + 9, py);
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  /** The brush footprint, exactly as engine.paint() will stamp it: a disc of
+   *  radius `brush` cells, so the outline sits half a cell beyond the last
+   *  cell it will touch. */
+  _drawBrush(ctx, f) {
+    if (!this.hover) return;
+    ctx.save();
+    ctx.setLineDash([3, 3]);
+    ctx.lineWidth = 1.2;
+    ctx.strokeStyle = this.erasing ? 'rgba(255,82,82,0.75)' : 'rgba(255,174,69,0.75)';
+    ctx.beginPath();
+    ctx.arc(this.hover.px, this.hover.py, (this.brush + 0.5) * f.s, 0, Math.PI * 2);
     ctx.stroke();
     ctx.restore();
   }
