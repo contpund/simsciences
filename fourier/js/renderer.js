@@ -74,6 +74,13 @@ export class Renderer {
     return { x: (px - f.cx) / f.s, y: -(py - f.cy) / f.s };
   }
 
+  /** Engine coords → canvas coords. The inverse of toEngine; the capture
+   *  pipeline uses it to replay a stroke as if it had been drawn by hand. */
+  toCanvas(x, y) {
+    const f = this._frame(this._geom().draw);
+    return this._toScreen(f, x, y);
+  }
+
   /** Is this canvas point inside the drawing pane? */
   hitDrawArea(px, py) {
     const d = this._geom().draw;
@@ -238,7 +245,10 @@ export class Renderer {
     ctx.font = 'bold 13px Inter, sans-serif';
     const err = e.error;
     ctx.fillStyle = err < 1 ? rgba(COL_ACCENT, 0.95) : rgba(COL_DROP, 0.95);
-    ctx.fillText(`${t('hud.error')} ${err.toFixed(1)} %`, d.x + 12, d.y + 38);
+    // Below 1% a single decimal collapses everything to "0.0", which reads as
+    // zero when it is not. Match the sidebar's two decimals down there.
+    const shown = err < 1 ? err.toFixed(2) : err.toFixed(1);
+    ctx.fillText(`${t('hud.error')} ${shown} %`, d.x + 12, d.y + 38);
     ctx.restore();
   }
 

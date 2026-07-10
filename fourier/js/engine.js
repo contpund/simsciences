@@ -179,8 +179,10 @@ export class FourierEngine {
     return Math.sqrt(residual / this.totalEnergy) * 100;
   }
 
-  /** The harmonic carrying the most amplitude (ignoring the n = 0 offset). */
+  /** The harmonic carrying the most amplitude (ignoring the n = 0 offset).
+   *  Zero when there is no path to speak of. */
   get dominantHarmonic() {
+    if (this.totalEnergy <= 0) return 0;
     let best = 0, bestAmp = -1;
     for (let n = -NMAX; n <= NMAX; n++) {
       if (n === 0) continue;

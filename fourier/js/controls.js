@@ -37,6 +37,16 @@ export function initControls(engine, renderer) {
   const outDominant = $('valDominant'), outPoints = $('valPoints');
 
   function syncStats() {
+    // Mid-stroke there is no analysed path yet: report nothing rather than
+    // a confident 0.00 % about a curve that does not exist.
+    if (!engine.path.length) {
+      outCircles.textContent = '—';
+      outError.textContent = '—';
+      outError.classList.remove('good', 'bad');
+      outDominant.textContent = '—';
+      outPoints.textContent = '0';
+      return;
+    }
     outCircles.textContent = String(engine.circles);
     const err = engine.error;
     outError.textContent = err.toFixed(2) + ' %';
