@@ -216,21 +216,26 @@ export class SIREngine {
   // ── One simulation step ──────────────────────────────────────────────────
 
   /** Advance one frame's worth of simulated time. `speed` decides how many
-   *  fixed-size substeps that is — it never stretches the substep itself. */
+   *  fixed-size substeps that is — it never stretches the substep itself.
+   *
+   *  Note there is no early exit once the last case recovers. With I = 0 the
+   *  substep is a no-op for the disease, but the crowd keeps walking and the
+   *  clock keeps ticking, so the curves run flat to the right edge. Freezing
+   *  everything instead — as this used to — reads as a crash, and leaves the
+   *  chart as three stubs in the corner. */
   step() {
-    if (this.paused || this.finished) return;
+    if (this.paused) return;
     this._acc += DT * this.speed;
     let budget = MAX_SUBSTEPS;
-    while (this._acc >= DT - 1e-12 && budget-- > 0 && !this.finished) {
+    while (this._acc >= DT - 1e-12 && budget-- > 0) {
       this._substep(DT);
       this._acc -= DT;
     }
   }
 
-  _substep(dt) {
+  /** Everyone walks, bouncing off the walls of the domain. */
+  _move(dt) {
     const n = this.N;
-
-    // 1. Move everyone, bouncing off the walls of the domain.
     for (let i = 0; i < n; i++) {
       this.x[i] += this.vx[i] * dt;
       this.y[i] += this.vy[i] * dt;
@@ -246,6 +251,13 @@ export class SIREngine {
       this.vx[i] = vx * c - vy * s;
       this.vy[i] = vx * s + vy * c;
     }
+  }
+
+  _substep(dt) {
+    const n = this.N;
+
+    // 1. Move everyone.
+    this._move(dt);
 
     // 2. Transmission. Per-contact probability calibrated so that the mean-field
     //    limit is exactly −β·S·I/N (see header).

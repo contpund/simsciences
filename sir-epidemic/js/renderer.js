@@ -207,7 +207,11 @@ export class Renderer {
     const pw = Math.max(10, c.w - pad.l - pad.r);
     const ph = Math.max(10, c.h - pad.t - pad.b);
 
-    const tMax = Math.max(40, e.time * 1.06);
+    // Track the last recorded sample, not the clock: once history hits its cap
+    // the curves stop growing, and an axis that kept stretching would leave
+    // them ending in mid-air.
+    const tLast = e.history.length ? e.history[e.history.length - 1].t : e.time;
+    const tMax = Math.max(40, tLast * 1.06);
     const X = (t) => px + (t / tMax) * pw;
     const Y = (v) => py + ph - (v / e.N) * ph;
 
