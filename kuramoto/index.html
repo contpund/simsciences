@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>La synchronisation de Kuramoto — SimSciences</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="css/style.css" />
+  <script type="module" src="js/main.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <h1 data-i18n="appTitle">La synchronisation de Kuramoto</h1>
+      <span class="subtitle" data-i18n="subtitle">Aucun chef d’orchestre. Et pourtant, ils se mettent d’accord.</span>
+    </div>
+    <nav class="lang" aria-label="Language" data-i18n-tip="tip.lang">
+      <button data-lang="fr" lang="fr" title="Français">🇫🇷</button>
+      <button data-lang="en" lang="en" title="English">🇬🇧</button>
+    </nav>
+  </header>
+
+  <main class="layout">
+    <section class="stage">
+      <canvas id="sim" width="900" height="600"></canvas>
+      <div class="citation" data-i18n="citation">Kuramoto, Y. (1975). Self-entrainment of a population of coupled non-linear oscillators. Lecture Notes in Physics 39, 420–422.</div>
+    </section>
+
+    <aside class="sidebar">
+      <section class="panel">
+        <h2 data-i18n="sectionParams">Paramètres</h2>
+        <div class="ctrl">
+          <label for="slK"><span data-i18n="coupling">K — force du couplage</span><b id="valKslider">0,60</b></label>
+          <input type="range" id="slK" min="0" max="4.8" step="0.05" value="0.60" data-i18n-tip="tip.coupling" />
+        </div>
+        <div class="ctrl">
+          <label for="slGamma"><span data-i18n="spread">γ — écart des fréquences</span><b id="valGamma">0,60</b></label>
+          <input type="range" id="slGamma" min="0.2" max="1.5" step="0.05" value="0.60" data-i18n-tip="tip.spread" />
+        </div>
+        <div class="ctrl">
+          <label for="slSize"><span data-i18n="size">Nombre d’oscillateurs</span><b id="valSize">500</b></label>
+          <input type="range" id="slSize" min="50" max="1000" step="10" value="500" data-i18n-tip="tip.size" />
+        </div>
+        <div class="ctrl">
+          <label for="slSpeed"><span data-i18n="speed">Vitesse</span><b id="valSpeed">3</b></label>
+          <input type="range" id="slSpeed" min="1" max="12" step="1" value="3" data-i18n-tip="tip.speed" />
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2 data-i18n="sectionStats">Mesures</h2>
+        <div class="stat" data-i18n-tip="tip.statK">
+          <span data-i18n="statK">Couplage (K)</span><b id="valK">0,60</b>
+        </div>
+        <div class="stat" data-i18n-tip="tip.statR">
+          <span data-i18n="statR">Cohérence (r)</span><b id="valR">0,05</b>
+        </div>
+        <div class="stat" data-i18n-tip="tip.statKc">
+          <span data-i18n="statKc">Seuil (K_c)</span><b id="valKc">1,20</b>
+        </div>
+        <div class="stat" data-i18n-tip="tip.statRt">
+          <span data-i18n="statRt">Kuramoto prédit</span><b id="valRt">—</b>
+        </div>
+        <div class="stat" data-i18n-tip="tip.statN">
+          <span data-i18n="statN">Oscillateurs</span><b id="valN">500</b>
+        </div>
+        <div class="stat" data-i18n-tip="tip.statState">
+          <span data-i18n="statState">État</span><b id="valState">incohérent — chacun sa cadence</b>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2 data-i18n="sectionPresets">Expériences</h2>
+        <div class="presets">
+          <button id="btnSilence" class="mode-btn" data-i18n="silence" data-i18n-tip="tip.silence">Cacophonie</button>
+          <button id="btnThreshold" class="mode-btn" data-i18n="threshold" data-i18n-tip="tip.threshold">Le seuil</button>
+          <button id="btnLockin" class="mode-btn" data-i18n="lockin" data-i18n-tip="tip.lockin">Accrochage</button>
+          <button id="btnOnemind" class="mode-btn" data-i18n="onemind" data-i18n-tip="tip.onemind">Un seul esprit</button>
+        </div>
+        <button id="btnShuffle" class="wide shuffle" data-i18n="shuffle" data-i18n-tip="tip.shuffle">🎲 Rebattre</button>
+        <div class="presets">
+          <button id="btnReset" class="ghost" data-i18n="reset" data-i18n-tip="tip.reset">Réinitialiser</button>
+          <button id="btnPause" data-i18n="start" data-i18n-tip="tip.pause">⏸ Pause</button>
+        </div>
+      </section>
+    </aside>
+  </main>
+</body>
+</html>

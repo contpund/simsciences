@@ -1118,6 +1118,55 @@
           </a>
         </div>
       </article>
+
+      <article class="card">
+        <div class="card-header">
+          <h3>No Conductor. And Still, They Agree.</h3>
+          <span class="badge">Episode 11</span>
+        </div>
+
+        <div class="tags">
+          <span class="tag">Synchronization</span>
+          <span class="tag">Nonlinear Dynamics</span>
+          <span class="tag">Phase Transition</span>
+        </div>
+
+        <p class="card-desc">
+          A crowd of oscillators, each ticking at its own pace, each pulled a little toward the average of all the others. Turn the coupling up slowly. For a while, nothing. Then, at one sharp value, the crowd snaps into a single rhythm — no leader, no signal, no plan. Fireflies do it. Metronomes do it. Your heart's pacemaker does it.
+        </p>
+
+        <button class="read-more-toggle" type="button" aria-expanded="false" aria-controls="sci-kuramoto">
+          Read more <span class="chevron">▾</span>
+        </button>
+
+        <div class="scientific-text" id="sci-kuramoto">
+          <p><strong>The Kuramoto model — where synchrony comes from</strong></p>
+          <p>
+            Take N oscillators. Each one is just a phase θ running around a circle, and left alone it turns at its own natural frequency ω — drawn once at random, some fast, some slow, and never changed. Now couple them: every oscillator feels a pull toward the average phase of the whole population, with strength K. That is the entire model: dθ_i/dt = ω_i + (K/N)·Σ_j sin(θ_j − θ_i).
+          </p>
+          <p>
+            The thing to watch is the order parameter r, the length of the average of all the phase vectors. r = 0 means the phases are scattered around the circle and cancel out — noise. r = 1 means every oscillator sits at the same phase — perfect synchrony. Nobody sets r. It is what the crowd does.
+          </p>
+          <ul>
+            <li><strong>A sharp threshold</strong> — for frequencies drawn from a Lorentzian of half-width γ, Kuramoto solved the model exactly: nothing synchronises until the coupling crosses K_c = 2γ. Below it, the only stable state is incoherence. Measured here with γ = 0.60, so K_c = 1.20 exactly</li>
+            <li><strong>An exact curve, unbidden</strong> — above threshold the steady coherence is r = √(1 − K_c/K). Measured in this simulation (N = 1000): at K = 1.8 the crowd settles at r = 0.60, against a predicted 0.58; at K = 3.6, r = 0.83 against 0.82. The coherence lands on Kuramoto's curve, and nobody put that curve in the code</li>
+            <li><strong>Who locks and who drifts</strong> — an oscillator joins the synchronised cluster only if its natural frequency is close enough to the mean: |ω| &lt; K·r. At K = 3.6 that is 88% of them, locked into one packet. The remaining 12% — the fastest and slowest — never lock. They drift around the circle forever, visible as the loose dots orbiting the bright arc</li>
+            <li><strong>A second-order phase transition</strong> — just above K_c the coherence grows like √(K − K_c). Cross the threshold and order appears continuously from nothing, the same mathematical signature as a magnet cooling below its Curie point</li>
+          </ul>
+          <p>
+            Yoshiki Kuramoto wrote this down in 1975, and it turned out to describe an astonishing range of the world. Fireflies of the species Photinus carolinus flash in unison across whole hillsides. Metronomes started at random on a shared, freely-rocking base drift into lockstep within minutes. The ten-thousand pacemaker cells of your heart's sinoatrial node fire together because each nudges its neighbours. Applause in a hall, generators on a power grid, neurons in the suprachiasmatic clock behind your eyes — all of them are a crowd agreeing on a rhythm with no conductor at all.
+          </p>
+          <p class="reference">
+            Kuramoto, Y. (1975). Self-entrainment of a population of coupled non-linear oscillators. In International Symposium on Mathematical Problems in Theoretical Physics. Lecture Notes in Physics 39, 420–422. Springer. · Strogatz, S. H. (2000). From Kuramoto to Crawford. Physica D 143, 1–20. · Acebrón, J. A. et al. (2005). The Kuramoto model. Rev. Mod. Phys. 77, 137.
+          </p>
+        </div>
+
+        <div class="card-cta">
+          <a href="./kuramoto/" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+            Launch Simulation →
+          </a>
+        </div>
+      </article>
     </section>
 
     <section id="about">
