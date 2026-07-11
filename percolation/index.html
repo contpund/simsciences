@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>La percolation — SimSciences</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="css/style.css" />
+  <script type="module" src="js/main.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <h1 data-i18n="appTitle">La percolation</h1>
+      <span class="subtitle" data-i18n="subtitle">À 59 %, rien ne passe. À 60 %, tout passe.</span>
+    </div>
+    <nav class="lang" aria-label="Language" data-i18n-tip="tip.lang">
+      <button data-lang="fr" lang="fr" title="Français">🇫🇷</button>
+      <button data-lang="en" lang="en" title="English">🇬🇧</button>
+    </nav>
+  </header>
+
+  <main class="layout">
+    <section class="stage">
+      <canvas id="sim" width="900" height="600"></canvas>
+      <div class="citation" data-i18n="citation">Broadbent, S. R. &amp; Hammersley, J. M. (1957). Percolation processes I. Crystals and mazes. Proc. Cambridge Phil. Soc. 53, 629–641.</div>
+    </section>
+
+    <aside class="sidebar">
+      <section class="panel">
+        <h2 data-i18n="sectionParams">Paramètres</h2>
+        <div class="ctrl">
+          <label for="slP"><span data-i18n="porosity">p — porosité</span><b id="valPslider">0,550</b></label>
+          <input type="range" id="slP" min="0.20" max="0.80" step="0.001" value="0.55" data-i18n-tip="tip.porosity" />
+        </div>
+        <div class="ctrl">
+          <label for="slSize"><span data-i18n="size">Taille de la grille</span><b id="valSize">100</b></label>
+          <input type="range" id="slSize" min="40" max="200" step="10" value="100" data-i18n-tip="tip.size" />
+        </div>
+        <div class="ctrl">
+          <label for="slSpeed"><span data-i18n="speed">Vitesse de l’eau</span><b id="valSpeed">2</b></label>
+          <input type="range" id="slSpeed" min="1" max="8" step="1" value="2" data-i18n-tip="tip.speed" />
+        </div>
+        <label class="toggle" data-i18n-tip="tip.clusters">
+          <input type="checkbox" id="tgClusters" />
+          <span data-i18n="clusters">Colorer les amas</span>
+        </label>
+      </section>
+
+      <section class="panel">
+        <h2 data-i18n="sectionStats">Mesures</h2>
+        <div class="stat" data-i18n-tip="tip.statP">
+          <span data-i18n="statP">Porosité (p)</span><b id="valP">0,550</b>
+        </div>
+        <div class="stat" data-i18n-tip="tip.statOpen">
+          <span data-i18n="statOpen">Sites ouverts</span><b id="valOpen">—</b>
+        </div>
+        <div class="stat" data-i18n-tip="tip.statLargest">
+          <span data-i18n="statLargest">Plus grand amas</span><b id="valLargest">—</b>
+        </div>
+        <div class="stat" data-i18n-tip="tip.statDepth">
+          <span data-i18n="statDepth">Profondeur atteinte</span><b id="valDepth">0 %</b>
+        </div>
+        <div class="stat" data-i18n-tip="tip.statPc">
+          <span data-i18n="statPc">Seuil (p_c)</span><b id="valPc">0,5927</b>
+        </div>
+        <div class="stat" data-i18n-tip="tip.statState">
+          <span data-i18n="statState">État</span><b id="valState">l’eau descend…</b>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2 data-i18n="sectionPresets">Expériences</h2>
+        <div class="presets">
+          <button id="btnSealed" class="mode-btn" data-i18n="sealed" data-i18n-tip="tip.sealed">Étanche</button>
+          <button id="btnSoclose" class="mode-btn" data-i18n="soclose" data-i18n-tip="tip.soclose">Si proche</button>
+          <button id="btnThreshold" class="mode-btn" data-i18n="threshold" data-i18n-tip="tip.threshold">Le seuil</button>
+          <button id="btnThrough" class="mode-btn" data-i18n="through" data-i18n-tip="tip.through">Ça passe</button>
+        </div>
+        <button id="btnShuffle" class="wide shuffle" data-i18n="shuffle" data-i18n-tip="tip.shuffle">🎲 Nouvelle roche</button>
+        <button id="btnPour" class="wide shuffle" data-i18n="pourBtn" data-i18n-tip="tip.pour">💧 Verser à nouveau</button>
+        <div class="presets">
+          <button id="btnReset" class="ghost" data-i18n="reset" data-i18n-tip="tip.reset">Réinitialiser</button>
+          <button id="btnPause" data-i18n="start" data-i18n-tip="tip.pause">⏸ Pause</button>
+        </div>
+      </section>
+    </aside>
+  </main>
+</body>
+</html>

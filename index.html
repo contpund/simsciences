@@ -1171,6 +1171,59 @@
           </a>
         </div>
       </article>
+
+      <article class="card">
+        <div class="card-header">
+          <h3>At 59%, Nothing Gets Through. At 60%, Everything Does.</h3>
+          <span class="badge">Episode 12</span>
+        </div>
+
+        <div class="tags">
+          <span class="tag">Percolation</span>
+          <span class="tag">Phase Transition</span>
+          <span class="tag">Statistical Physics</span>
+        </div>
+
+        <p class="card-desc">
+          A random grid of open and closed sites — a porous rock. Pour water on top: does it come out the bottom? Below one exact porosity nothing ever gets through, however long you wait; above it, a giant cluster spans the rock and the water always finds a way. The threshold is p_c ≈ 0.5927, and it is the sharpest edge in statistical physics. Forest fires, epidemics, coffee makers and doped semiconductors all cross it.
+        </p>
+
+        <button class="read-more-toggle" type="button" aria-expanded="false" aria-controls="sci-percolation">
+          Read more <span class="chevron">▾</span>
+        </button>
+
+        <div class="scientific-text" id="sci-percolation">
+          <p><strong>Percolation — where connectivity comes from</strong></p>
+          <p>
+            Take an L×L square lattice. Each site is open with probability p and closed otherwise — that is the entire model. Two open sites belong to the same cluster if a chain of side-by-side open neighbours joins them (never diagonals). The question Broadbent and Hammersley asked in 1957 — thinking of the charcoal filters in coal miners' gas masks — is binary: does one cluster span the lattice from top to bottom?
+          </p>
+          <p>
+            The answer flips at a single value of p. In the infinite-lattice limit, a spanning cluster exists with probability zero for p &lt; p_c and probability one for p &gt; p_c, where p_c ≈ 0.592746 for site percolation on the square lattice — a number known to a dozen digits, with no exact formula known.
+          </p>
+          <ul>
+            <li><strong>Big is not the same as through</strong> — measured on this page (L = 100): at p = 0.57 the largest cluster already covers 18% of the whole grid and the water sinks 83% of the way down… and stops. Below the threshold every cluster is finite: pockets, not paths</li>
+            <li><strong>The knife edge</strong> — each random rock has its own exact breakthrough level, computable by adding sites in order of their random draw. Measured here over 15 rocks: at L = 100 they scatter around 0.592 ± 0.020; at L = 200 the spread halves to ± 0.010. As L grows, every rock's threshold converges on the same p_c — the transition becomes a step</li>
+            <li><strong>One percent changes everything</strong> — on the same rock, moving p from 0.57 to 0.61 takes the outcome from "sealed" to "flows through, every pour". No middle ground survives at scale: the middle IS the threshold</li>
+            <li><strong>Universality</strong> — near p_c the spanning cluster is a fractal, and the critical exponents that describe it are the same for forest fires, epidemics on grids, and conduction in random materials. The threshold value depends on the lattice; the shape of the transition does not</li>
+          </ul>
+          <p>
+            Percolation is the simplest model in physics with a genuine phase transition — no temperature, no energy, no motion, just counting. It is also the reason a forest at 59% tree cover barely burns while one at 61% burns end to end, why an epidemic needs a minimum contact density to travel, and why an espresso machine works at all.
+          </p>
+          <p class="reference">
+            Broadbent, S. R. &amp; Hammersley, J. M. (1957). Percolation processes I. Crystals and mazes. Proc. Cambridge Phil. Soc. 53, 629–641. · Stauffer, D. &amp; Aharony, A. (1994). Introduction to Percolation Theory. Taylor &amp; Francis. · Newman, M. E. J. &amp; Ziff, R. M. (2000). Efficient Monte Carlo algorithm for percolation. Phys. Rev. Lett. 85, 4104.
+          </p>
+        </div>
+
+        <div class="card-cta">
+          <a href="./percolation/" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+            Launch Simulation →
+          </a>
+          <a href="https://youtube.com/@simsciences" target="_blank" rel="noopener noreferrer" class="btn-yt" aria-label="Watch episode 12 on YouTube">
+            <i class="fa-brands fa-youtube yt-glyph"></i>
+            <span>Watch the explainer</span>
+          </a>
+        </div>
+      </article>
     </section>
 
     <section id="about">
